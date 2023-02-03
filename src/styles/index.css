@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+
+:root {
+    background: #EDEDED;
+    font-family: sans-serif;
+    font-family: 'Inter', sans-serif;
+    font-family: 'Lato', sans-serif;
+}
+
+
+.page-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;  
+}
+
+.index-wrap {
+    width: 100%;
+}
+
+.index-main {
+    margin: 150px auto 0px auto;
+    display: flex;
+    max-width: 800px;
+    justify-content: space-between;
+    padding: 0 25px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.animated-text {
+    font-size: 1.3rem;
+    font-family: Lato;
+    text-align: center;
+}
+
+.animated-orange {
+    color: #F99D47;
+}
+
+
+.index-main img {
+    height: 60px;
+}
+
+.index-about {
+    background: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 25px 50px;
+    font-family: Lato;
+    font-size: 1rem;
+    line-height: 25px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.index-about ul {
+    list-style-type: none;
+    margin-left: 45px;
+}
+
+.index-about ul li:before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: #F99D47; /* Change the color */
+  font-weight: bold; /* If you want it to be bold */
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
+
+.index-main > form {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 25px 50px;
+    gap: 15px;
+}
+
+.index-main form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.index-main form label {
+
+}
+
+.index-main form input,
+.index-main form button {
+    padding: 8px 12px;
+    border: #ABABAB solid 1px;
+    border-radius: 8px;
+}
+
+.index-main form button {
+    font-family: Lato;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: none;
+}
+
+.index-main form button[type="submit"] {
+    background: #F99D47;
+    color: white;
+}
+
+.index-main form button[type="button"] {
+    background: #EBF6E8;
+    color: black;
+    width: 100%;
+}
+
+.index-main form button[type="submit"]:hover {
+    background: #cf7724;
+    cursor: pointer;
+}
+
+.index-main form button[type="button"]:hover {
+    background: #a8d79b;
+    cursor: pointer;
+}
+
+.index-main form p {
+    font-size: 0.7rem;
+    text-align: center;
+}
+
+.last-option {
+    margin-bottom: 8px;
+}
+
+.index-main form label {
+    font-size: 0.7rem;
+    margin-bottom: 6px;
+    margin-top: 12px;
+}
+
+
+.border-line {
+    border-top: 1px solid #D9D9D9;
+}
+
+
+.index-footer {
+    background: white;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+    max-width: 800px;
+    margin: 0px auto;
+    padding: 0 25px;
+}
+
+.footer-wrap {
+    margin-top: auto;
+    width: 100%;
+    background: white;
+}
+
+.index-footer ul {
+    display: flex;
+    gap: 12px;
+}
+
+.index-footer a {
+    text-decoration: none;
+    color: black;
+}
+.index-footer a:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+.index-footer p {
+    font-weight: 200;
+    font-size: 0.8rem;
+}
