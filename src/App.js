@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import './styles/app.css';
 import IndexLayout from "./components/index/IndexLayout";
 import Login from "./components/index/Login";
 import Register from "./components/index/Register";
