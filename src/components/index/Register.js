@@ -18,10 +18,11 @@ export default function Register() {
                 <input type="password" name="password" />
 
                 <label htmlFor="confirm-password">Confirm Password</label>
-                <input type="password" name="confirm-password" />
+                <input type="password" name="confirm-password" className="last-option" />
 
                 <button type="submit">Register</button>
             </div>
+            <span class="border-line" />
             <p>Already have an account?</p>
             <Link to="/"><button type="button">Log In</button></Link>
         </form>
