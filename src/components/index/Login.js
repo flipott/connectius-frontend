@@ -7,11 +7,11 @@ export default function Login() {
             <div>
                 <div>
                     <label htmlFor="email">Email</label>
-                    <input type="email" name="email" />
+                    <input type="email" name="email" minLength="3" maxLength="254" required />
                 </div>
                 <div>
                     <label htmlFor="password">Password</label>
-                    <input type="password" name="password" className="last-option" />
+                    <input type="password" name="password" minLength="3" className="last-option" />
                 </div>
                 <button type="submit">Log In</button>
             </div>

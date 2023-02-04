@@ -1,6 +1,7 @@
 import React from "react";
 import IndexFooter from "./IndexFooter";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function IndexLayout(props) {
 
@@ -30,7 +31,7 @@ export default function IndexLayout(props) {
             <div className="index-wrap">
                 <div className="index-main">
                     <div class="hero-left">
-                        <img src="/images/logo-light.svg" />
+                        <Link to="/"><img src="/images/logo-light.svg" /></Link>
                         <div dangerouslySetInnerHTML={{ __html: text }} />
                     </div>
                     {props.component}
