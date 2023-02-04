@@ -35,10 +35,24 @@
     gap: 25px;
 }
 
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 .animated-text {
     font-size: 1.3rem;
     font-family: Lato;
     text-align: center;
+    animation: fade 5s 1;
+    user-select: none;
 }
 
 .animated-orange {
