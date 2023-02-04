@@ -62,6 +62,7 @@
 
 .index-main img {
     height: 60px;
+    user-select: none;
 }
 
 .index-about {
