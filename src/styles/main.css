@@ -1,0 +1,17 @@
+.navbar {
+    display: flex;
+    background: #F99D47;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar > div {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-profile {
+    display: flex;
+    align-items: center;
+
+}
