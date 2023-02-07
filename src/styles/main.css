@@ -3,15 +3,74 @@
     background: #F99D47;
     justify-content: space-between;
     align-items: center;
+    font-family: Lato, sans-serif;
 }
 
 .navbar > div {
     display: flex;
     align-items: center;
+    gap: 75px;
 }
 
 .navbar-profile {
     display: flex;
     align-items: center;
+    gap: 15px;
+}
 
+.navbar > div > a {
+    color: white;
+    font-weight: 500;
+}
+
+.navbar p {
+    font-size: 1.2rem;
+}
+
+.navbar-profile a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    height: 100%;
+}
+
+.navbar-profile a:hover{
+    text-decoration: underline;
+}
+
+.navbar-profile img {
+    height: 55px;
+    border-radius: 8px;
+}
+
+#main-logo {
+    height: 40px
+}
+
+.main-wrap {
+    width: 100%;
+}
+
+.main-main {
+    margin: auto auto 0px auto;
+    display: flex;
+    max-width: 1200px;
+    justify-content: space-between;
+    padding: 0 25px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.navbar {
+    height: 60px;
+    display: flex;
+    gap: 12px;
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 0 25px;
+}
+
+.navbar-wrap {
+    width: 100%;
+    background: #F99D47;
 }
