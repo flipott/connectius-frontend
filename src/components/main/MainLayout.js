@@ -7,7 +7,9 @@ export default function IndexLayout(props) {
 
     return (
         <div className="page-wrap">
-            <Navbar firstName="Phil" />
+            <div className="navbar-wrap">
+                <Navbar firstName="Phil" />
+            </div>
             <div className="main-wrap">
                 <div className="main-main">                  
                 </div>

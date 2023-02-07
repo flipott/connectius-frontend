@@ -5,15 +5,15 @@ export default function Navbar(props) {
     return (
         <div className="navbar">
             <div>
-                <img src="/images/logo-light-alternate.svg" />
+                <img src="/images/logo-light-alternate.svg" id="main-logo" />
                 <Link to="/feed"><p>Current Feed</p></Link>
             </div>
             <div>
                 <div className="navbar-profile">
-                    <img src="/images/profile-temp.svg" />
-                    <p>{props.firstName}</p>
+                    <Link to="/profile"><img src="/images/profile-temp.svg" /></Link>
+                    <Link to="/profile"><p>{props.firstName}</p></Link>
                 </div>
-                <img src="/images/cogs-light.svg" />
+                <Link to="/preferences"><img src="/images/cogs-light.svg" /></Link>
             </div>
         </div>   
     )
