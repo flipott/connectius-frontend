@@ -16,8 +16,8 @@ export default function IndexLayout(props) {
                 <div className="main-sidebar">
                     <Sidebar firstName="Phil" lastName="Ott" /> 
                 </div>
-                <div className="main-main">       
-                MAIN CONTENT HERE           
+                <div className="main-main">
+                    {props.component}
                 </div>
                 <div className="main-rightbar">
                     <Rightbar firstName="Phil" lastName="Ott" />
