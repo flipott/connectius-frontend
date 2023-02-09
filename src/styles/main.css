@@ -224,7 +224,7 @@
 
 .post-top {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     gap: 15px;
 }
 
@@ -268,7 +268,8 @@
 
 
 .post-buttons button:hover,
-.new-post button:hover {
+.new-post button:hover,
+.preferences button:hover {
     cursor: pointer;
     background: #cf7724;
     
@@ -307,3 +308,24 @@
     color: black;
     font-size: 0.8rem;
 }
+
+.preferences form {
+    padding: 25px 50px;
+    min-width: 250px;
+}
+
+.preferences form button {
+    background: #F99D47;
+    color: white;
+}
+
+.preferences-delete button {
+    background: #FF7878 !important;
+    color: white; 
+}
+
+.preferences-delete button:hover {
+    cursor: pointer;
+    background: #ac5353 !important;
+}
+

@@ -94,7 +94,7 @@
 }
 
 
-.index-main > form {
+form {
     display: flex;
     flex-direction: column;
     background: white;
@@ -104,23 +104,19 @@
     gap: 15px;
 }
 
-.index-main form div {
+form div {
     display: flex;
     flex-direction: column;
 }
 
-.index-main form label {
-
-}
-
-.index-main form input,
-.index-main form button {
+form input,
+form button {
     padding: 8px 12px;
     border: #ABABAB solid 1px;
     border-radius: 8px;
 }
 
-.index-main form button {
+form button {
     font-family: Lato;
     font-size: 1.3rem;
     font-weight: bold;
@@ -157,7 +153,7 @@
     margin-bottom: 8px;
 }
 
-.index-main form label {
+form label {
     font-size: 0.7rem;
     margin-bottom: 6px;
     margin-top: 12px;
