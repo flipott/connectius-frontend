@@ -1,14 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export default function Preferences(props) {
-
-    const { post } = props;
 
     return (
         <>
             <div className="main-top">Your Preferences</div>
-            <div className="posts-container">
+            <div className="posts-container preferences">
                 <form action="" method="">
                     <label htmlFor="first-name">First Name</label>
                     <input type="text" name="first-name" minLength="2" maxLength="35" />
@@ -30,7 +27,7 @@ export default function Preferences(props) {
 
                     <button>Update Password</button>
                 </form>
-                <form action="" method="">
+                <form action="" method="" className="preferences-delete">
                     <button>Delete Account</button>
                 </form>
             </div>
