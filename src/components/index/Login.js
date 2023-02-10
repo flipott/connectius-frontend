@@ -15,7 +15,7 @@ export default function Login() {
                 </div>
                 <button type="submit">Log In</button>
             </div>
-            <span class="border-line" />
+            <span className="border-line" />
             <p>Don't have an account?</p>
             <Link to="register"><button type="button">Register</button></Link>
         </form>

@@ -30,7 +30,7 @@ export default function IndexLayout(props) {
         <div className="page-wrap">
             <div className="index-wrap">
                 <div className="index-main">
-                    <div class="hero-left">
+                    <div className="hero-left">
                         <Link to="/"><img src="/images/logo-light.svg" /></Link>
                         <div dangerouslySetInnerHTML={{ __html: text }} />
                     </div>
