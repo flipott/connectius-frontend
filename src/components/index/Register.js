@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Register() {
 
     const [formData, setFormData] = React.useState({});
+    const [formError, setFormError] = React.useState({});
     const navigate = useNavigate();
 
     const handleSubmit = async(e) => {
@@ -18,7 +19,11 @@ export default function Register() {
                 body: JSON.stringify(formData)
             });
             const data = await response.json();
-            if (data) {
+            if (data.errors) {
+                setFormError(data.errors[0].msg);
+
+            }
+            if (!data.errors) {
                 navigate("/");
             }
         } catch(error) {
@@ -33,20 +38,21 @@ export default function Register() {
     return (
         <form onSubmit={handleSubmit}>
             <div>
+                { formError.length && <div className="form-error">{formError}</div>}
                 <label htmlFor="first-name">First Name</label>
-                <input type="text" name="first-name" minLength="2" maxLength="35" onChange={handleInput} />
+                <input type="text" name="first-name" minLength="2" maxLength="35" onChange={handleInput} required />
 
                 <label htmlFor="last-name">Last Name</label>
-                <input type="text" name="last-name" minLength="2" maxLength="35" onChange={handleInput} />
+                <input type="text" name="last-name" minLength="2" maxLength="35" onChange={handleInput} required />
 
                 <label htmlFor="email">Email</label>
-                <input type="email" name="email" minLength="3" maxLength="254" onChange={handleInput}  />
+                <input type="email" name="email" minLength="3" maxLength="254" onChange={handleInput} required  />
 
                 <label htmlFor="password">Password</label>
-                <input type="password" name="password" minLength="3" onChange={handleInput} />
+                <input type="password" name="password" minLength="3" onChange={handleInput} required />
 
                 <label htmlFor="confirm-password">Confirm Password</label>
-                <input type="password" name="confirm-password" minLength="3" onChange={handleInput} className="last-option" />
+                <input type="password" name="confirm-password" minLength="3" onChange={handleInput} required className="last-option" />
 
                 <button type="submit">Register</button>
             </div>

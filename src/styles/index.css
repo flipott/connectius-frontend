@@ -111,6 +111,15 @@ form div {
     flex-direction: column;
 }
 
+.form-error {
+    background: #FF7878;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+    border-radius: 8px;
+}
+
 form input,
 form button {
     padding: 8px 12px;
