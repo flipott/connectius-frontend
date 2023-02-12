@@ -7,7 +7,7 @@ export default function Register() {
     const [formError, setFormError] = React.useState({});
     const navigate = useNavigate();
 
-    const handleSubmit = async(e) => {
+    const handleRegister = async(e) => {
         e.preventDefault();
 
         try {
@@ -20,6 +20,7 @@ export default function Register() {
             });
             const data = await response.json();
             if (data.errors) {
+                console.log(data.errors[0])
                 setFormError(data.errors[0].msg);
 
             }
@@ -36,7 +37,7 @@ export default function Register() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleRegister}>
             <div>
                 { formError.length && <div className="form-error">{formError}</div>}
                 <label htmlFor="first-name">First Name</label>
