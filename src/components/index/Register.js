@@ -1,11 +1,15 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Register() {
+export default function Register(props) {
 
     const [formData, setFormData] = React.useState({});
     const [formError, setFormError] = React.useState({});
     const navigate = useNavigate();
+
+    if (props.loggedIn) {
+        navigate("/feed");
+    }
 
     const handleRegister = async(e) => {
         e.preventDefault();

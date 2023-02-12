@@ -1,7 +1,31 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Feed(props) {
+
+    const navigate = useNavigate();
+    const [isLoggedIn, setIsLoggedIn] = React.useState(props.loggedIn);
+
+    React.useEffect(() => {
+        setIsLoggedIn(props.loggedIn);
+    }, [props.loggedIn]);
+  
+    React.useEffect(() => {
+        if (!isLoggedIn) {
+            navigate("/");
+        }
+    }, [isLoggedIn]);
+  
+
+    // React.useEffect(() => {
+    //     if (!props.loggedIn) {
+    //         navigate("/");
+    //     }
+    // }, [])
+
+
+
+    console.log(props.loggedIn);
 
     const { post } = props;
 

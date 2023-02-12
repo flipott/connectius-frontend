@@ -51,10 +51,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<IndexLayout component={<Login loggedIn={loggedIn} />} />} />
-        <Route path="/register" element={<IndexLayout component={<Register />} />} />
+        <Route path="/register" element={<IndexLayout component={<Register loggedIn={loggedIn} />} />} />
         <Route path="/about" element={<IndexLayout component={<About />} />} />
         <Route path="/profile" element={<MainLayout component={<Profile post={testPost} />} />} />
-        <Route path="/feed" element={<MainLayout component={<Feed post={testPost} />} />} />
+        <Route path="/feed" element={<MainLayout component={<Feed post={testPost} loggedIn={loggedIn} />} />} />
         <Route path="/liked" element={<MainLayout component={<Liked post={testPost} />} />} />
         <Route path="/preferences" element={<MainLayout component={<Preferences />} />} />
       </Routes>
