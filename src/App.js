@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
 import './styles/app.css';
 
 import IndexLayout from "./components/index/IndexLayout";
@@ -24,12 +25,32 @@ const testPost = {
   "__v": 0
 }
 
-
 function App() {
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [details, setDetails] = React.useState();
+
+  React.useEffect(() => {
+      const checkLoginStatus = async () => {
+          const response = await fetch("http://localhost:4001/auth", {
+              headers: {
+                  Authorization: `Bearer ${window.localStorage.getItem("token")}`
+              }
+          });
+          const json = await response.json();
+          if (json["result"] === "true") {
+              setLoggedIn(true);
+          } else {
+              setLoggedIn(false);
+          }
+      };
+      checkLoginStatus();
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<IndexLayout component={<Login />} />} />
+        <Route exact path="/" element={<IndexLayout component={<Login loggedIn={loggedIn} />} />} />
         <Route path="/register" element={<IndexLayout component={<Register />} />} />
         <Route path="/about" element={<IndexLayout component={<About />} />} />
         <Route path="/profile" element={<MainLayout component={<Profile post={testPost} />} />} />
