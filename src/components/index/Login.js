@@ -7,17 +7,17 @@ export default function Login(props) {
     const [formError, setFormError] = React.useState({});
     const navigate = useNavigate();
 
-    const [isLoggedIn, setIsLoggedIn] = React.useState(props.loggedIn);
+    // const [isLoggedIn, setIsLoggedIn] = React.useState(props.loggedIn);
 
-    React.useEffect(() => {
-        setIsLoggedIn(props.loggedIn);
-    }, [props.loggedIn]);
+    // React.useEffect(() => {
+    //     setIsLoggedIn(props.loggedIn);
+    // }, [props.loggedIn]);
   
     React.useEffect(() => {
-        if (isLoggedIn) {
-            navigate("/feed");
+        if (props.loggedIn) {
+            navigate("/feed", {replace: true});
         }
-    }, [isLoggedIn]);
+    }, [props.loggedIn]);
 
     const handleLogin = async(e) => {
         e.preventDefault();
@@ -37,6 +37,7 @@ export default function Login(props) {
             }
             if (!data.errors) {
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('user', data.user)
                 navigate("/feed");
             }
         } catch(error) {
