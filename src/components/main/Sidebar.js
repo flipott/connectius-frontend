@@ -23,6 +23,12 @@ export default function Navbar(props) {
                 </li>
                 <li>
                     <div>
+                        <img src="/images/user-dark.svg" />
+                        <Link to="/connections">Your Connections</Link>
+                    </div>
+                </li>
+                <li>
+                    <div>
                         <img src="/images/like-dark.svg" />
                         <Link to="/liked">Liked Posts</Link>
                     </div>
