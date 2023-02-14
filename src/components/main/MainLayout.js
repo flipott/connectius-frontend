@@ -10,7 +10,7 @@ export default function MainLayout(props) {
     const { name } = props;
 
 
-    return (
+    return name === undefined ? null :  (
         <div className="page-wrap">
             <div className="navbar-wrap">
                 <Navbar firstName={name.firstName} />
