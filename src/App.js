@@ -17,7 +17,7 @@ import Preferences from "./components/main/Preferences";
 import YourConnections from "./components/main/YourConnections";
 import AllConnections from "./components/main/FindConnections";
 import FindConnections from "./components/main/FindConnections";
-
+import Requests from "./components/main/Requests";
 
 const testPost = {
   "firstName": "Phil",
@@ -35,6 +35,7 @@ function App() {
   const [posts, setPosts] = React.useState();
   const [name, setName] = React.useState();
   const [connections, setConnections] = React.useState();
+  const [requests, setRequests] = React.useState();
   const [allUsers, setAllUsers] = React.useState();
 
   React.useEffect(() => {
@@ -67,6 +68,8 @@ function App() {
         const json = await response.json();
         setPosts(json[0].posts);
         setConnections(json[0].connections);
+        console.log(json[0]);
+        setRequests(json[0].requests);
         setName({ "firstName": json[0].firstName, "lastName": json[0].lastName });
       }
 
@@ -96,6 +99,7 @@ function App() {
         <Route path="/profile" element={<MainLayout name={name} component={<Profile posts={posts} loggedIn={loggedIn} />} />} />
         <Route path="/connections" element={<MainLayout name={name} component={<YourConnections connections={connections} loggedIn={loggedIn} />} />} />
         <Route path="/find-connections" element={<MainLayout name={name} component={<FindConnections allUsers={allUsers} loggedIn={loggedIn} />} />} />
+        <Route path="/requests" element={<MainLayout name={name} component={<Requests requests={requests} loggedIn={loggedIn} />} />} />
         <Route path="/feed" element={<MainLayout name={name} component={<Feed post={testPost} loggedIn={loggedIn} />} />} />
         <Route path="/liked" element={<MainLayout name={name} component={<Liked post={testPost} />} />} />
         <Route path="/preferences" element={<MainLayout name={name} component={<Preferences />} />} />
