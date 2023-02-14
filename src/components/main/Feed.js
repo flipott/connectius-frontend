@@ -14,7 +14,7 @@ export default function Feed(props) {
 
     const { post } = props;
 
-    return (
+    return post === undefined ? null : (
         <>
             <div className="main-top">Welcome back!</div>
             <div className="posts-container">
