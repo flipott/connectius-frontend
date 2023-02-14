@@ -47,19 +47,19 @@ export default function Profile(props) {
 
                 <form method="" action="" className="new-post" onSubmit={handlePostSubmit}>
                     <p>Create a new post</p>
-                    <textarea placeholder="Write your post here..." onChange={handleInput}></textarea>
+                    <textarea placeholder="Write your post here..." onChange={handleInput} required></textarea>
                     <button>Post</button>
                 </form>
 
                 <div className="text-divider">Your Posts</div>
                 { posts && posts.map((post) => {
                     return (
-                        <div className="post">
+                        <div className="post" key={post._id}>
                         <div className="post-top">
                             <img src="/images/profile-temp.svg" />
                             <div className="post-top-right">
                                 <p className="post-name">{post.user.firstName} {post.user.lastName}</p>
-                                <p className="post-time">{post.time}</p>
+                                <p className="post-time">{new Date(post.time).toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'})}</p>
                             </div>
                         </div>
                         <div className="post-body">{post.body}</div>
