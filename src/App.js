@@ -66,9 +66,9 @@ function App() {
           }
         });
         const json = await response.json();
+        console.log(json);
         setPosts(json[0].posts);
         setConnections(json[0].connections);
-        console.log(json[0]);
         setRequests(json[0].requests);
         setName({ "firstName": json[0].firstName, "lastName": json[0].lastName });
       }
@@ -83,7 +83,6 @@ function App() {
           }
         });
         const json = await response.json();
-        console.log(json);
         setAllUsers(json);
       }
 
