@@ -5,6 +5,7 @@ export default function Requests(props) {
 
     const { requests } = props;
     const currentUser = localStorage.getItem("user");
+    console.log(requests);
 
 
     const acceptConnection = async(recipient, e) => {
@@ -50,17 +51,17 @@ export default function Requests(props) {
                 <div className="text-divider">Viewing Your Connections</div>
                 { requests && requests.map((request) => {
                     return (
-                        <div className="request-card" key={request.user._id}>
+                        <div className="request-card" key={request._id}>
                             <div className="sidebar-profile">
                                 <img src="/images/profile-temp.svg" />
-                                <p>{request.user.firstName} {request.user.lastName}</p>
+                                <p>{request.firstName} {request.lastName}</p>
                             </div>
                             <div className="border-line"></div>
                             <div className="request-buttons">
-                                <form onSubmit={(e) => acceptConnection(request.user._id, e)}>
+                                <form onSubmit={(e) => acceptConnection(request._id, e)}>
                                     <button>Accept</button>
                                 </form>                            
-                                <form onSubmit={(e) => declineConnection(request.user._id, e)}>
+                                <form onSubmit={(e) => declineConnection(request._id, e)}>
                                     <button>Decline</button>
                                 </form>     
                             </div>
