@@ -3,15 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function Profile(props) {
 
-    const { posts } = props;
     const [formData, setFormData] = React.useState();
     const navigate = useNavigate();
 
-  
+    const [posts, setPosts] = React.useState();
+
+    const getPosts = async() => {
+        const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
+            headers: {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+            }
+        });
+        const json = await response.json();
+        setPosts(json);
+    }
 
     React.useEffect(() => {
         if (!props.loggedIn) {
-            navigate("/", { replace: true }); }
+            navigate("/", { replace: true });
+        }
+        getPosts()
     }, [])
 
 
