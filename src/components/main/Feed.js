@@ -110,7 +110,7 @@ export default function Feed(props) {
                             <p>{post.comments.length} Comments</p>
                         </div>
                         {
-                            userPosts.some(item => item._id === post._id) && (
+                            !userPosts.some(item => item._id === post._id) && (
                                 <div className="post-buttons">
                                 {
                                     userLikes.includes(post._id) ?
