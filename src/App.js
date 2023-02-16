@@ -38,53 +38,55 @@ function App() {
   const [requests, setRequests] = React.useState();
   const [allUsers, setAllUsers] = React.useState();
 
+  const checkLoginStatus = async () => {
+    const response = await fetch("http://localhost:4001/auth", {
+        headers: {
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`
+        }
+    }); 
+    const json = await response.json();
+    if (json["result"] === "true") {
+        setLoggedIn(true);
+        getLoginItems();
+        getAllUsers();
+
+    } else {
+        setLoggedIn(false);
+    }
+  };
+
+  const getLoginItems = async () => {
+    const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}`, {
+      headers: {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+      }
+    });
+    const json = await response.json();
+    console.log(json);
+    setPosts(json[0].posts);
+    setConnections(json[0].connections);
+    setRequests(json[0].requests);
+    setName({ "firstName": json[0].firstName, "lastName": json[0].lastName });
+  }
+
+  const getAllUsers = async () => {
+    const response = await fetch(`http://localhost:4001/user/`, {
+      headers: {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      } 
+    });
+    const json = await response.json();
+    setAllUsers(json);
+  }
+
   React.useEffect(() => {
-      const checkLoginStatus = async () => {
-          const response = await fetch("http://localhost:4001/auth", {
-              headers: {
-                  Authorization: `Bearer ${window.localStorage.getItem("token")}`
-              }
-          }); 
-          const json = await response.json();
-          if (json["result"] === "true") {
-              setLoggedIn(true);
-              getLoginItems();
-              getAllUsers();
 
-          } else {
-              setLoggedIn(false);
-          }
-      };
-
-      const getLoginItems = async () => {
-        const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}`, {
-          headers: {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-          }
-        });
-        const json = await response.json();
-        console.log(json);
-        setPosts(json[0].posts);
-        setConnections(json[0].connections);
-        setRequests(json[0].requests);
-        setName({ "firstName": json[0].firstName, "lastName": json[0].lastName });
-      }
-
-      const getAllUsers = async () => {
-        const response = await fetch(`http://localhost:4001/user/`, {
-          headers: {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        });
-        const json = await response.json();
-        setAllUsers(json);
-      }
 
       checkLoginStatus();
   }, []);
@@ -100,7 +102,7 @@ function App() {
         <Route path="/find-connections" element={<MainLayout name={name} component={<FindConnections allUsers={allUsers} loggedIn={loggedIn} />} />} />
         <Route path="/requests" element={<MainLayout name={name} component={<Requests requests={requests} loggedIn={loggedIn} />} />} />
         <Route path="/feed" element={<MainLayout name={name} component={<Feed post={testPost} loggedIn={loggedIn} />} />} />
-        <Route path="/liked" element={<MainLayout name={name} component={<Liked post={testPost} />} />} />
+        <Route path="/liked" element={<MainLayout name={name} component={<Liked post={testPost} loggedIn={loggedIn} />} />} />
         <Route path="/preferences" element={<MainLayout name={name} component={<Preferences />} />} />
       </Routes>
     </BrowserRouter>
