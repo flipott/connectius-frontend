@@ -18,6 +18,7 @@ import YourConnections from "./components/main/YourConnections";
 import AllConnections from "./components/main/FindConnections";
 import FindConnections from "./components/main/FindConnections";
 import Requests from "./components/main/Requests";
+import ConnectedProfile from "./components/main/ConnectedProfile";
 
 const testPost = {
   "firstName": "Phil",
@@ -99,6 +100,7 @@ function App() {
         <Route path="/about" element={<IndexLayout component={<About />} />} />
         <Route path="/profile" element={<MainLayout name={name} component={<Profile posts={posts} loggedIn={loggedIn} />} />} />
         <Route path="/connections" element={<MainLayout name={name} component={<YourConnections connections={connections} loggedIn={loggedIn} />} />} />
+        <Route path="/connections/:connectionId" element={<MainLayout name={name} component={<ConnectedProfile loggedIn={loggedIn} />} />} />
         <Route path="/find-connections" element={<MainLayout name={name} component={<FindConnections allUsers={allUsers} loggedIn={loggedIn} />} />} />
         <Route path="/requests" element={<MainLayout name={name} component={<Requests requests={requests} loggedIn={loggedIn} />} />} />
         <Route path="/feed" element={<MainLayout name={name} component={<Feed post={testPost} loggedIn={loggedIn} />} />} />
