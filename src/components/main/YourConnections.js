@@ -7,7 +7,6 @@ export default function YourConnections(props) {
     const currentUser = localStorage.getItem("user");
 
     const disconnect = async(recipient, e) => {
-        console.log(recipient);
         e.preventDefault()
 
         try {
@@ -35,7 +34,7 @@ export default function YourConnections(props) {
                         <div className="connection-card" key={connection._id}>
                             <div className="sidebar-profile">
                                 <img src="/images/profile-temp.svg" />
-                                <p>{connection.firstName} {connection.lastName}</p>
+                                <p><Link to={`${connection._id}`}>{connection.firstName} {connection.lastName}</Link></p>
                             </div>
                             <div className="border-line"></div>
                             <form onSubmit={(e) => disconnect(connection._id, e)}>
