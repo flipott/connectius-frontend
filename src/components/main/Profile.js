@@ -82,16 +82,6 @@ export default function Profile(props) {
                             <p>{post.likes.length} Likes</p>
                             <p>{post.comments.length} Comments</p>
                         </div>
-                        <div className="post-buttons">
-                            <button>
-                                <img src="/images/like-light.svg" />
-                                <p>Like</p>
-                            </button>
-                            <button>
-                                <img src="/images/message-light.svg" />
-                                <p>Comment</p>
-                            </button>
-                        </div>
                     </div>
                     );
                 })}
