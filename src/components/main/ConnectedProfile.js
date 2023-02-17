@@ -1,14 +1,43 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import FindConnections from "./FindConnections";
 
 export default function ConnectedProfile(props) {
 
     const navigate = useNavigate();
     const currentUser = localStorage.getItem("user");
 
+    const path = window.location.pathname;
+    const connectionId = path.substring("/connections/".length);
+
+    const [isConnected, setIsConnected] = React.useState(false);
     const [feedPosts, setFeedPosts] = React.useState();
+    const [profileName, setProfileName] = React.useState();
     const [userLikes, setUserLikes] = React.useState();
     const [userPosts, setUserPosts] = React.useState();
+    const [userRequests, setUserRequests] = React.useState();
+
+    const isRequested = (userRequests, connectedProfileId) => {
+        return userRequests.some(item => item._id === connectedProfileId) ? true : false;
+    }
+
+    const getProfileName = async(connectionId) => {
+        const response = await fetch(`http://localhost:4001/user/${connectionId}/`, {
+            headers: {
+              method: "GET",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+            }
+        });
+        const json = await response.json();
+        if (json[0].firstName && json[0].lastName) {
+            setProfileName({"firstName": json[0].firstName, "lastName": json[0].lastName});
+            setUserRequests(json[0].requests);
+        } else {
+            return null;
+        }
+    }
 
     const getConnectionPosts = async(connectionId) => {
         const response = await fetch(`http://localhost:4001/user/${connectionId}/post`, {
@@ -21,11 +50,10 @@ export default function ConnectedProfile(props) {
         });
         const json = await response.json();
         setFeedPosts(json);
+        await getProfileName(connectionId);
     }
 
-    const getConnectionFeed = async () => {
-        const path = window.location.pathname;
-        const connectionId = path.substring("/connections/".length);
+    const getConnectionFeed = async (connectionId) => {
 
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
             headers: {
@@ -44,8 +72,11 @@ export default function ConnectedProfile(props) {
 
         // Verify users are connected
         if (connectionList.some(item => item._id === connectionId)) {
+            setIsConnected(true);
             await getConnectionPosts(connectionId);
         } else {
+            setIsConnected(false);
+            getProfileName(connectionId);
             return null;
         }
     }
@@ -81,26 +112,81 @@ export default function ConnectedProfile(props) {
             console.log(error);
         }    
     }
+
+    const sendConnectionRequest = async(recipient, e) => {
+        e.preventDefault()
+
+        try {
+            const response = await fetch(`http://localhost:4001/user/${recipient}/request`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({currentUser})
+            });
+            const data = await response.json();
+            window.location.reload();
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    const cancelConnectionRequest = async(recipient, e) => {
+        e.preventDefault()
+
+        try {
+            const response = await fetch(`http://localhost:4001/user/${recipient}/request`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({currentUser})
+            });
+            const data = await response.json();
+            window.location.reload();
+        } catch(error) {
+            console.log(error);
+        }
+    }
   
 
     React.useEffect(() => {
         if (!props.loggedIn) {
             navigate("/", { replace: true }); 
         } else {
-            getConnectionFeed()
+            getConnectionFeed(connectionId)
         }
-    }, [], console.log(feedPosts))
+    }, [])
 
     return (
         <>
             <div className="main-top">Welcome back!</div>
             <div className="posts-container">
-                <div className="text-divider">Viewing Your Feed</div>
 
-                {!feedPosts && <h2>Loading...</h2>}
+                {((!feedPosts || !profileName) && isConnected) && <h2>Loading...</h2>}
+
+                {(profileName && isConnected) && <div className="text-divider">Viewing {profileName.firstName} {profileName.lastName}'s Feed</div>}
+                {(profileName && !isConnected) && 
+                    <div>
+                        <h2>You are not currently connected with {profileName.firstName} {profileName.lastName}.</h2>
+                        {userRequests && (
+                        <div>
+                            {isRequested(userRequests, currentUser) ? (
+                            <form onSubmit={(e) => cancelConnectionRequest(connectionId, e)}>
+                                <button>Cancel Connection Request</button>
+                            </form>                                      
+                            ) : (
+                            <form onSubmit={(e) => sendConnectionRequest(connectionId, e)}>
+                                <button>Send Connection Request</button>
+                            </form>
+                            )}
+                        </div>
+                        )}   
+                    </div>
+                }
 
 
-                {feedPosts && feedPosts.map((post) => 
+                {(feedPosts && isConnected) && feedPosts.map((post) => 
                     <div className="post" key={post._id}>
                         <div className="post-top">
                             <img src="/images/profile-temp.svg" />
