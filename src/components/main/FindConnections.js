@@ -76,7 +76,7 @@ export default function FindConnections(props) {
                         <div className="user-card" key={user._id}>
                             <div className="sidebar-profile">
                                 <img src="/images/profile-temp.svg" />
-                                <p>{user.firstName} {user.lastName}</p>
+                                <p><Link to={`/connections/${user._id}`}>{user.firstName} {user.lastName}</Link></p>
                             </div>
                             <div className="border-line"></div>
                             {
