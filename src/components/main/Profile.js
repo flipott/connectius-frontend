@@ -7,6 +7,7 @@ export default function Profile(props) {
 
     const [formData, setFormData] = React.useState();
     const navigate = useNavigate();
+    const currentUser = localStorage.getItem("user");
 
     const [posts, setPosts] = React.useState();
     const [userPosts, setUserPosts] = React.useState();
@@ -21,6 +22,22 @@ export default function Profile(props) {
 
     const unlikePost = async(post, e) => {
         return null;
+    }
+
+    const handlePostDelete = async(postId, e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:4001/user/${currentUser}/post/${postId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            getPosts();
+            window.scrollTo(0, 0);
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     const getPosts = async() => {
@@ -95,7 +112,9 @@ export default function Profile(props) {
                 </form>
 
                 <div className="text-divider">Your Posts</div>
-                { currentPosts && <Post currentPosts={currentPosts} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} /> }
+                {currentPosts && currentPosts.map((post) => 
+                    <Post currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={handlePostDelete} />
+                )}
                 {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} currentPage={currentPage} feedPosts={posts} /> }
 
             </div>

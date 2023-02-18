@@ -16,10 +16,23 @@ export default function Feed(props) {
     const [postsPerPage, setPostsPerPage] = React.useState(5);
     const [currentPosts, setCurrentPosts] = React.useState();
 
-    
+    const handlePostDelete = async(postId, e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:4001/user/${currentUser}/post/${postId}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            getFeed();
+            window.scrollTo(0, 0);
+        } catch(error) {
+            console.log(error);
+        }
+    }
 
     const getFeedPosts = async(userList) => {
-        console.log(userList);
         const response = await fetch(`http://localhost:4001/post/?${userList}`, {
             headers: {
               method: "GET",
@@ -93,6 +106,7 @@ export default function Feed(props) {
             navigate("/", { replace: true }); 
         } else {
             getFeed()
+            console.log("running");
             window.scrollTo(0, 0)
         }
     }, [currentPage])
@@ -109,8 +123,10 @@ export default function Feed(props) {
             <div className="main-top">Welcome back!</div>
             <div className="posts-container">
                 <div className="text-divider">Viewing Your Feed</div>
+                {currentPosts && currentPosts.map((post) => 
+                    <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={handlePostDelete} />
+                )}
                 {!currentPosts && <h2>Loading...</h2>}
-                {currentPosts && <Post currentPosts={currentPosts} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} />}
                 {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
             </div>
         </>

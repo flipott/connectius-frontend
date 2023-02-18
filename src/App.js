@@ -20,6 +20,10 @@ import FindConnections from "./components/main/FindConnections";
 import Requests from "./components/main/Requests";
 import ConnectedProfile from "./components/main/ConnectedProfile";
 
+import { useLocation } from "react-router-dom";
+
+
+
 const testPost = {
   "firstName": "Phil",
   "lastName": "Ott",
@@ -31,7 +35,7 @@ const testPost = {
 }
 
 function App() {
-
+  
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [posts, setPosts] = React.useState();
   const [name, setName] = React.useState();

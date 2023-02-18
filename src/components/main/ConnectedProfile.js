@@ -202,12 +202,12 @@ export default function ConnectedProfile(props) {
                     </div>
                 }
 
-                {(currentPosts && isConnected) && <Post currentPosts={currentPosts} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} /> }
+                {(currentPosts && isConnected) && currentPosts.map((post) =>
+                    <Post currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={null} />
+                )}
                 {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
 
             </div>
         </>
     );
 }
-
-    // currentPosts, userPosts, userLikes, likePost, unlikePost
