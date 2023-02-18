@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Post from "../Post";
+import Pagination from "../Pagination";
 
 export default function Feed(props) {
 
@@ -9,6 +11,12 @@ export default function Feed(props) {
     const [feedPosts, setFeedPosts] = React.useState();
     const [userLikes, setUserLikes] = React.useState();
     const [userPosts, setUserPosts] = React.useState();
+
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [postsPerPage, setPostsPerPage] = React.useState(5);
+    const [currentPosts, setCurrentPosts] = React.useState();
+
+    
 
     const getFeedPosts = async(userList) => {
         console.log(userList);
@@ -22,6 +30,9 @@ export default function Feed(props) {
         });
         const json = await response.json();
         setFeedPosts(json);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
     }
 
     const getFeed = async () => {
@@ -54,7 +65,7 @@ export default function Feed(props) {
                 },
                 body: JSON.stringify({currentUser})
             });
-            window.location.reload();
+            getFeed();
         } catch(error) {
             console.log(error);
         }    
@@ -70,7 +81,7 @@ export default function Feed(props) {
                 },
                 body: JSON.stringify({currentUser})
             });
-            window.location.reload();
+            getFeed();
         } catch(error) {
             console.log(error);
         }    
@@ -82,53 +93,25 @@ export default function Feed(props) {
             navigate("/", { replace: true }); 
         } else {
             getFeed()
+            window.scrollTo(0, 0)
         }
-    }, [], console.log(userPosts))
+    }, [currentPage])
+
+    const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentPosts(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
+    }
 
     return (
         <>
             <div className="main-top">Welcome back!</div>
             <div className="posts-container">
                 <div className="text-divider">Viewing Your Feed</div>
-
-                {!feedPosts && <h2>Loading...</h2>}
-
-
-                {feedPosts && feedPosts.map((post) => 
-                    <div className="post" key={post._id}>
-                        <div className="post-top">
-                            <img src="/images/profile-temp.svg" />
-                            <div className="post-top-right">
-                                <p className="post-name">{post.user.firstName} {post.user.lastName}</p>
-                                <p className="post-time">{new Date(post.time).toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'})}</p>
-                            </div>
-                        </div>
-                        <div className="post-body">{post.body}</div>
-                        <div className="border-line" />
-                        <div className="post-stats">
-                            <p>{post.likes.length} Likes</p>
-                            <p>{post.comments.length} Comments</p>
-                        </div>
-                        {
-                            !userPosts.some(item => item._id === post._id) && (
-                                <div className="post-buttons">
-                                {
-                                    userLikes.includes(post._id) ?
-                                    <button onClick={(e) => unlikePost(post, e) }>
-                                        <img src="/images/like-light.svg" />
-                                    <p>Unlike</p>
-                                    </button>
-                                    :
-                                    <button onClick={(e) => likePost(post, e) }>
-                                        <img src="/images/like-light.svg" />
-                                    <p>Like</p>
-                                    </button>                            
-                                }
-                                </div>
-                            )
-                        }
-                    </div>
-                )}
+                {!currentPosts && <h2>Loading...</h2>}
+                {currentPosts && <Post currentPosts={currentPosts} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} />}
+                {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
             </div>
         </>
     );

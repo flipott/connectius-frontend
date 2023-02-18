@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Post from "../Post";
+import Pagination from "../Pagination";
 
 export default function Profile(props) {
 
@@ -7,6 +9,19 @@ export default function Profile(props) {
     const navigate = useNavigate();
 
     const [posts, setPosts] = React.useState();
+    const [userPosts, setUserPosts] = React.useState();
+    const [userLikes, setUserLikes] = React.useState();
+    const [currentPosts, setCurrentPosts] = React.useState();
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const postsPerPage = 5;
+
+    const likePost = async(post, e) => { 
+        return null;
+    }
+
+    const unlikePost = async(post, e) => {
+        return null;
+    }
 
     const getPosts = async() => {
         const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
@@ -18,7 +33,13 @@ export default function Profile(props) {
             }
         });
         const json = await response.json();
+        const likedList = json[0].liked;
         setPosts(json);
+        setUserPosts(json);
+        setUserLikes(likedList);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
     }
 
     React.useEffect(() => {
@@ -26,7 +47,8 @@ export default function Profile(props) {
             navigate("/", { replace: true });
         }
         getPosts()
-    }, [])
+        window.scrollTo(0, 0)
+    }, [currentPage])
 
 
     const handlePostSubmit = async(e) => {
@@ -50,6 +72,13 @@ export default function Profile(props) {
         setFormData(e.target.value);
     };
 
+    const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentPosts(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
+    }
+
     return (
         <>
             <div className="main-top">Your Profile</div>
@@ -66,25 +95,8 @@ export default function Profile(props) {
                 </form>
 
                 <div className="text-divider">Your Posts</div>
-                { posts && posts.map((post) => {
-                    return (
-                        <div className="post" key={post._id}>
-                        <div className="post-top">
-                            <img src="/images/profile-temp.svg" />
-                            <div className="post-top-right">
-                                <p className="post-name">{post.user.firstName} {post.user.lastName}</p>
-                                <p className="post-time">{new Date(post.time).toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'})}</p>
-                            </div>
-                        </div>
-                        <div className="post-body">{post.body}</div>
-                        <div className="border-line" />
-                        <div className="post-stats">
-                            <p>{post.likes.length} Likes</p>
-                            <p>{post.comments.length} Comments</p>
-                        </div>
-                    </div>
-                    );
-                })}
+                { currentPosts && <Post currentPosts={currentPosts} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} /> }
+                {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} currentPage={currentPage} feedPosts={posts} /> }
 
             </div>
         </>

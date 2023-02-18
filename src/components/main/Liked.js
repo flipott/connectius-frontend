@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Pagination from "../Pagination";
+import Post from "../Post";
 
 export default function Liked(props) {
 
@@ -9,6 +11,11 @@ export default function Liked(props) {
     const [likedPosts, setLikedPosts] = React.useState();
     const [userLikes, setUserLikes] = React.useState();
     const [userPosts, setUserPosts] = React.useState();
+
+    const [currentPosts, setCurrentPosts] = React.useState();
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const postsPerPage = 5;
+
 
     const getLikedPosts = async(postList) => {
         const response = await fetch(`http://localhost:4001/post/?${postList}`, {
@@ -20,8 +27,10 @@ export default function Liked(props) {
             }
         });
         const json = await response.json();
-        console.log(json);
         setLikedPosts(json);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
     }
 
     const getPosts = async () => {
@@ -34,7 +43,6 @@ export default function Liked(props) {
             }
         });
         const json = await response.json();
-        // const connectionList = json[0].connections;
         const likedList = json[0].liked;
         setUserPosts(json[0].posts);
         setUserLikes(likedList);
@@ -74,15 +82,21 @@ export default function Liked(props) {
         }    
     }
   
-    console.log(props.loggedIn);
-
     React.useEffect(() => {
         if (!props.loggedIn) {
             navigate("/", { replace: true }); 
         } else {
             getPosts()
+            window.scrollTo(0, 0)
         }
-    }, [])
+    }, [currentPage])
+
+    const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentPosts(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
+    }
 
     return (
         <>
@@ -93,41 +107,9 @@ export default function Liked(props) {
                 {!likedPosts && <h2>Loading...</h2>}
 
 
-                {likedPosts && likedPosts.map((post) => 
-                    <div className="post" key={post._id}>
-                        <div className="post-top">
-                            <img src="/images/profile-temp.svg" />
-                            <div className="post-top-right">
-                                <p className="post-name">{post.user.firstName} {post.user.lastName}</p>
-                                <p className="post-time">{new Date(post.time).toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'})}</p>
-                            </div>
-                        </div>
-                        <div className="post-body">{post.body}</div>
-                        <div className="border-line" />
-                        <div className="post-stats">
-                            <p>{post.likes.length} Likes</p>
-                            <p>{post.comments.length} Comments</p>
-                        </div>
-                        {
-                            !userPosts.some(item => item._id === post._id) && (
-                                <div className="post-buttons">
-                                {
-                                    userLikes.includes(post._id) ?
-                                    <button onClick={(e) => unlikePost(post, e) }>
-                                        <img src="/images/like-light.svg" />
-                                    <p>Unlike</p>
-                                    </button>
-                                    :
-                                    <button onClick={(e) => likePost(post, e) }>
-                                        <img src="/images/like-light.svg" />
-                                    <p>Like</p>
-                                    </button>                            
-                                }
-                                </div>
-                            )
-                        }
-                    </div>
-                )}
+                { currentPosts && <Post currentPosts={currentPosts} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} /> }
+                { currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={likedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={likedPosts} /> }
+
             </div>
         </>
     );

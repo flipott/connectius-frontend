@@ -1,6 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import FindConnections from "./FindConnections";
+import Post from "../Post";
+import Pagination from "../Pagination";
 
 export default function ConnectedProfile(props) {
 
@@ -17,10 +19,14 @@ export default function ConnectedProfile(props) {
     const [userPosts, setUserPosts] = React.useState();
     const [userRequests, setUserRequests] = React.useState();
 
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [postsPerPage, setPostsPerPage] = React.useState(5);
+    const [currentPosts, setCurrentPosts] = React.useState();
+
+
     const isRequested = (userRequests, connectedProfileId) => {
         return userRequests.some(item => item._id === connectedProfileId) ? true : false;
     }
-
     const getProfileName = async(connectionId) => {
         const response = await fetch(`http://localhost:4001/user/${connectionId}/`, {
             headers: {
@@ -50,6 +56,9 @@ export default function ConnectedProfile(props) {
         });
         const json = await response.json();
         setFeedPosts(json);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
         await getProfileName(connectionId);
     }
 
@@ -91,7 +100,7 @@ export default function ConnectedProfile(props) {
                 },
                 body: JSON.stringify({currentUser})
             });
-            window.location.reload();
+            getConnectionFeed(connectionId);
         } catch(error) {
             console.log(error);
         }    
@@ -107,7 +116,7 @@ export default function ConnectedProfile(props) {
                 },
                 body: JSON.stringify({currentUser})
             });
-            window.location.reload();
+            getConnectionFeed(connectionId);
         } catch(error) {
             console.log(error);
         }    
@@ -155,8 +164,16 @@ export default function ConnectedProfile(props) {
             navigate("/", { replace: true }); 
         } else {
             getConnectionFeed(connectionId)
+            window.scrollTo(0, 0)
         }
-    }, [])
+    }, [currentPage])
+
+    const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentPosts(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
+    }
 
     return (
         <>
@@ -185,43 +202,12 @@ export default function ConnectedProfile(props) {
                     </div>
                 }
 
+                {(currentPosts && isConnected) && <Post currentPosts={currentPosts} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} /> }
+                {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
 
-                {(feedPosts && isConnected) && feedPosts.map((post) => 
-                    <div className="post" key={post._id}>
-                        <div className="post-top">
-                            <img src="/images/profile-temp.svg" />
-                            <div className="post-top-right">
-                                <p className="post-name">{post.user.firstName} {post.user.lastName}</p>
-                                <p className="post-time">{new Date(post.time).toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'})}</p>
-                            </div>
-                        </div>
-                        <div className="post-body">{post.body}</div>
-                        <div className="border-line" />
-                        <div className="post-stats">
-                            <p>{post.likes.length} Likes</p>
-                            <p>{post.comments.length} Comments</p>
-                        </div>
-                        {
-                            !userPosts.some(item => item._id === post._id) && (
-                                <div className="post-buttons">
-                                {
-                                    userLikes.includes(post._id) ?
-                                    <button onClick={(e) => unlikePost(post, e) }>
-                                        <img src="/images/like-light.svg" />
-                                    <p>Unlike</p>
-                                    </button>
-                                    :
-                                    <button onClick={(e) => likePost(post, e) }>
-                                        <img src="/images/like-light.svg" />
-                                    <p>Like</p>
-                                    </button>                            
-                                }
-                                </div>
-                            )
-                        }
-                    </div>
-                )}
             </div>
         </>
     );
 }
+
+    // currentPosts, userPosts, userLikes, likePost, unlikePost
