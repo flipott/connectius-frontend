@@ -314,6 +314,10 @@
     min-width: 250px;
 }
 
+.preferences form label {
+    margin: 0;
+}
+
 .preferences form button {
     background: #F99D47;
     color: white;
