@@ -107,7 +107,7 @@ export default function Liked(props) {
                 {!likedPosts && <h2>Loading...</h2>}
 
                 {currentPosts && currentPosts.map((post) => 
-                    <Post currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={null} />
+                    <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={null} />
                 )}
 
                 { currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={likedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={likedPosts} /> }
