@@ -95,6 +95,10 @@ export default function Profile(props) {
         const indexOfFirstPost = indexOfLastPost - postsPerPage;
         setCurrentPosts(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
     }
+    
+    const updateProfilePicture = async(e) => {
+        e.preventDefault();
+    }
 
     return (
         <>
@@ -102,7 +106,10 @@ export default function Profile(props) {
             <div className="posts-container">
                 <div className="picture-update">
                     <img src="/images/profile-temp.svg" />
-                    <a href="">Update Profile Picture</a>
+                    <form onSubmit={updateProfilePicture}>
+                        <input type="file" id="file" name="file" />
+                        <button>Submit</button>
+                    </form>
                 </div>
 
                 <form method="" action="" className="new-post" onSubmit={handlePostSubmit}>
@@ -113,7 +120,7 @@ export default function Profile(props) {
 
                 <div className="text-divider">Your Posts</div>
                 {currentPosts && currentPosts.map((post) => 
-                    <Post currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={handlePostDelete} />
+                    <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={handlePostDelete} />
                 )}
                 {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} currentPage={currentPage} feedPosts={posts} /> }
 
