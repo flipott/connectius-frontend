@@ -8,6 +8,8 @@ export default function Feed(props) {
     const navigate = useNavigate();
     const currentUser = localStorage.getItem("user");
 
+    const [loading, setLoading] = React.useState(false);
+
     const [feedPosts, setFeedPosts] = React.useState();
     const [userLikes, setUserLikes] = React.useState([]);
     const [userPosts, setUserPosts] = React.useState();
@@ -49,6 +51,9 @@ export default function Feed(props) {
     }
 
     const getFeed = async () => {
+
+        setLoading(true);
+        
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
             headers: {
               method: "GET",
@@ -60,14 +65,14 @@ export default function Feed(props) {
         const json = await response.json();
         const connectionList = json[0].connections;
         const likedList = json[0].liked;
-        console.log(json);
         setUserPosts(json[0].posts);
         setUserLikes(likedList);
-        console.log(likedList);
         const totalList = connectionList.map((user) => user._id)
         totalList.push(json[0]._id);
         const string = "userList=" + totalList.join("&userList=")
         await getFeedPosts(string);
+
+        setLoading(false);
     }
 
     const likePost = async(post, e) => {
@@ -108,7 +113,6 @@ export default function Feed(props) {
             navigate("/", { replace: true }); 
         } else {
             getFeed()
-            console.log("running");
             window.scrollTo(0, 0)
         }
     }, [currentPage])
@@ -124,12 +128,13 @@ export default function Feed(props) {
         <>
             <div className="main-top">Welcome back!</div>
             <div className="posts-container">
-                <div className="text-divider">Viewing Your Feed</div>
-                {currentPosts && currentPosts.map((post) => 
+                {loading && <div className="loading-icon"></div>}
+                {!loading && currentPosts && currentPosts.length === 0 && <div>There are no posts in your feed. Connect or make a new post right now!</div>}
+                {(!loading && currentPosts && currentPosts.length > 0) && <div className="text-divider">Viewing Your Feed</div> }
+                {!loading && currentPosts && currentPosts.length > 0 && currentPosts.map((post) => 
                     <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={handlePostDelete} />
                 )}
-                {!currentPosts && <h2>Loading...</h2>}
-                {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
+                {!loading && currentPosts && currentPosts.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
             </div>
         </>
     );
