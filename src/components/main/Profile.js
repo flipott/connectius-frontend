@@ -124,15 +124,37 @@ export default function Profile(props) {
         }
     }
 
+
+    // <button onClick={() => {setShowDeleteModal(true); setShowDeleteButton(false)}} style={{display: showDeleteButton ? 'block' : 'none'}}>Delete</button>
+    // <div className="delete-modal" style={{display: showDeleteModal ? 'block' : 'none'}}>
+    //     <p>Are you sure you wish to delete the post?</p>
+    //     <form onSubmit={(e) => handlePostDelete(post._id, e)}>
+    //         <button type="submit" onClick={() => {setShowDeleteButton(true); setShowDeleteModal(false)}}>Delete</button>
+    //         <button type="button" onClick={() => {setShowDeleteButton(true); setShowDeleteModal(false)}}>Cancel</button>
+
+    const [showPictureUpdate, setShowPictureUpdate] = React.useState(false);
+
+    function checkFileSize(e) {
+        const currentSize = e.target.files[0].size;
+
+        if (currentSize > 1048576) {
+            alert("File size must be 1mb or less.")
+            e.target.value = "";
+        }
+    }
+
     return (
         <>
             <div className="main-top">Your Profile</div>
             <div className="posts-container">
                 <div className="picture-update">
                     {props.profilePicture && <ProfilePicture image={props.profilePicture} />}
-                    <form onSubmit={updateProfilePicture}>
-                        <input type="file" id="file" name="file" />
-                        <button>Submit</button>
+                    <a href="#" onClick={() => setShowPictureUpdate(true)} style={{display: showPictureUpdate ? 'none' : 'block'}}>Update Profile Picture</a>
+                    <form style={{display: showPictureUpdate ? 'block' : 'none'}} onSubmit={updateProfilePicture}>
+                        <p>Photo must be 1mb or less.</p>
+                        <input type="file" id="file" name="file" accept="image/*" onChange={(e) => checkFileSize(e)} required />
+                        <button type="button" onClick={() => setShowPictureUpdate(false)}>Cancel</button>
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
 
