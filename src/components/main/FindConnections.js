@@ -1,12 +1,38 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ProfilePicture from "./ProfilePicture";
+import AvailableConnection from "./AvailableConnection";
+import Pagination from "../Pagination";
 
 export default function FindConnections(props) {
 
-    const { allUsers } = props;
+    const [filteredConnections, setFilteredConnections] = React.useState();
+
     const currentUser = localStorage.getItem("user");
     const [requestData, setRequestData] = React.useState();
+
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [postsPerPage, setPostsPerPage] = React.useState(10);
+    const [currentConnections, setCurrentConnections] = React.useState();
+
+    const getAllUsers = async () => {
+        const response = await fetch(`http://localhost:4001/user/`, {
+          headers: {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          } 
+        });
+        const json = await response.json();
+        const filteredUsers = json.filter(user => user._id !== currentUser);
+        const filteredConnectionsTest = filteredUsers.filter(user => isConnected(user) === false)
+        setFilteredConnections(filteredUsers.filter(user => isConnected(user) === false));
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentConnections(filteredConnectionsTest.slice(indexOfFirstPost, indexOfLastPost));
+    }
+
+
 
     const isConnected = (user) => {
         const connectedArray = user.connections;
@@ -18,13 +44,12 @@ export default function FindConnections(props) {
         return requestsArray.includes(currentUser) ? true : false;
     }
 
-    const filteredUsers = allUsers.filter(user => user._id !== currentUser);
-    const filterConnections = filteredUsers.filter(user => isConnected(user) === false);
 
 
     React.useEffect(() => {
-        console.log("WHAT");
-    }, [requestData])
+        getAllUsers();
+        window.scrollTo(0, 0)
+    }, [requestData, currentPage])
 
 
 
@@ -42,7 +67,7 @@ export default function FindConnections(props) {
             });
             const data = await response.json();
             setRequestData(data);
-            window.location.reload();
+            getAllUsers();
         } catch(error) {
             console.log(error);
         }
@@ -61,38 +86,31 @@ export default function FindConnections(props) {
             });
             const data = await response.json();
             setRequestData(data);
-            window.location.reload();
+            getAllUsers();
         } catch(error) {
             console.log(error);
         }
     }
+
+    const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentConnections(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
+    }
+
+
+    // Pagination({postsPerPage, totalPosts, paginate, currentPage, feedPosts})
 
     return (
         <>
             <div className="main-top">Hello.</div>
             <div className="posts-container">
                 <div className="text-divider">Viewing All Available Connections</div>
-                { filterConnections && filterConnections.map((user) => {
-                    return (
-                        <div className="user-card" key={user._id}>
-                            <div className="sidebar-profile">
-                            <Link to={`/connections/${user._id}`}> <ProfilePicture image={user.profilePicture} /></Link>
-                                <p><Link to={`/connections/${user._id}`}>{user.firstName} {user.lastName}</Link></p>
-                            </div>
-                            <div className="border-line"></div>
-                            {
-                                isRequested(user) ? 
-                                <form onSubmit={(e) => cancelConnectionRequest(user._id, e)}>
-                                    <button>Cancel Connection Request</button>
-                                </form>                                      
-                                : 
-                                <form onSubmit={(e) => sendConnectionRequest(user._id, e)}>
-                                    <button>Send Connection Request</button>
-                                </form>                            
-                            }
-                        </div>
-                    );
-                })}                
+                { currentConnections && currentConnections.map((user) =>
+                    <AvailableConnection key={user._id} user={user} isRequested={isRequested} cancelConnectionRequest={cancelConnectionRequest} sendConnectionRequest={sendConnectionRequest} />
+                )}
+                { currentConnections && <Pagination postsPerPage={postsPerPage} totalPosts={filteredConnections.length} paginate={paginate} currentPage={currentPage} feedPosts={filteredConnections} />}
             </div>
         </>
     )
