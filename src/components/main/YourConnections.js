@@ -1,11 +1,34 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import ProfilePicture from "./ProfilePicture";
+import CurrentConnection from "./CurrentConnection";
+import Pagination from "../Pagination";
 
 export default function YourConnections(props) {
 
-    const { connections } = props;
     const currentUser = localStorage.getItem("user");
+    const [connections, setConnections] = React.useState();
+
+    // Pagination states
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [postsPerPage, setPostsPerPage] = React.useState(10);
+    const [currentConnections, setCurrentConnections] = React.useState();
+
+
+    const getConnections = async () => {
+        const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+          headers: {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+          }
+        });
+        const json = await response.json();
+        setConnections(json[0].connections);
+        const filteredConnections = json[0].connections;
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentConnections(filteredConnections.slice(indexOfFirstPost, indexOfLastPost));
+    }
 
     const disconnect = async(recipient, e) => {
         e.preventDefault()
@@ -25,26 +48,24 @@ export default function YourConnections(props) {
         }
     }
 
+    React.useEffect(() => {
+        getConnections();
+    }, [])
+
+    const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentConnections(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
+    }
+
     return (
         <>
             <div className="main-top">Hello.</div>
             <div className="posts-container">
                 <div className="text-divider">Viewing Your Connections</div>
-                { connections && connections.map((connection) => {
-                    return (
-                        <div className="connection-card" key={connection._id}>
-                            <div className="sidebar-profile">
-                            <Link to={`/connections/${connection._id}`}> <ProfilePicture image={connection.profilePicture} /></Link>
-                            <p><Link to={`${connection._id}`}>{connection.firstName} {connection.lastName}</Link></p>
-                            </div>
-                            <div className="border-line"></div>
-                            <form onSubmit={(e) => disconnect(connection._id, e)}>
-                                <button>Disconnect</button>
-                            </form>
-                        </div>
-
-                    );
-                })}                
+                { currentConnections && currentConnections.map((connection) => <CurrentConnection key={connection._id} connection={connection} disconnect={disconnect} /> )}
+                { currentConnections && <Pagination postsPerPage={postsPerPage} totalPosts={connections.length} paginate={paginate} currentPage={currentPage} feedPosts={connections} />}            
             </div>
         </>
     )
