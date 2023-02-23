@@ -1,13 +1,35 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import ProfilePicture from "./ProfilePicture";
+import RequestConnection from "./RequestConnection";
+import Pagination from "../Pagination";
 
 export default function Requests(props) {
 
-    const { requests } = props;
     const currentUser = localStorage.getItem("user");
-    console.log(requests);
+    
+    const [requests, setRequests] = React.useState();
 
+    // Pagination states
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [postsPerPage, setPostsPerPage] = React.useState(10);
+    const [currentRequests, setCurrentRequests] = React.useState();
+    
+
+    const getRequests = async () => {
+        const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+          headers: {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+          }
+        });
+        const json = await response.json();
+        setRequests(json[0].requests);
+        const filteredRequests = json[0].requests;
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentRequests(filteredRequests.slice(indexOfFirstPost, indexOfLastPost));
+    }
 
     const acceptConnection = async(recipient, e) => {
         e.preventDefault()
@@ -21,7 +43,7 @@ export default function Requests(props) {
                 body: JSON.stringify({recipient})
             });
             const data = await response.json();
-            window.location.reload();
+            getRequests();
         } catch(error) {
             console.log(error);
         }
@@ -39,10 +61,21 @@ export default function Requests(props) {
                 body: JSON.stringify({currentUser})
             });
             const data = await response.json();
-            window.location.reload();
+            getRequests();
         } catch(error) {
             console.log(error);
         }
+    }
+
+    React.useEffect(() => {
+        getRequests();
+    }, [])
+
+    const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
+        setCurrentPage(pageNumber);
+        const indexOfLastPost = currentPage * postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - postsPerPage;
+        setCurrentRequests(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
     }
 
     return (
@@ -50,25 +83,9 @@ export default function Requests(props) {
             <div className="main-top">Hello.</div>
             <div className="posts-container">
                 <div className="text-divider">Viewing Your Connections</div>
-                { requests && requests.map((request) => {
-                    return (
-                        <div className="request-card" key={request._id}>
-                            <div className="sidebar-profile">
-                            <Link to={`/connections/${request._id}`}> <ProfilePicture image={request.profilePicture} /></Link>
-                            <p><Link to={`/connections/${request._id}`}>{request.firstName} {request.lastName}</Link></p>
-                            </div>
-                            <div className="border-line"></div>
-                            <div className="request-buttons">
-                                <form onSubmit={(e) => acceptConnection(request._id, e)}>
-                                    <button>Accept</button>
-                                </form>                            
-                                <form onSubmit={(e) => declineConnection(request._id, e)}>
-                                    <button>Decline</button>
-                                </form>     
-                            </div>
-                        </div>
-                    );
-                })}                  
+                { currentRequests && currentRequests.map((request) => <RequestConnection request={request} acceptConnection={acceptConnection} declineConnection={declineConnection} /> )}
+                { currentRequests && <Pagination postsPerPage={postsPerPage} totalPosts={requests.length} paginate={paginate} currentPage={currentPage} feedPosts={requests} />}            
+                  
             </div>
         </>
     )
