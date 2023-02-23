@@ -82,7 +82,8 @@ export default function Profile(props) {
                 body: JSON.stringify({ body: formData })
             });
             const data = await response;
-            window.location.reload();
+            setFormData("");
+            getPosts();
         } catch(error) {
             console.error(error);
         }
@@ -137,7 +138,7 @@ export default function Profile(props) {
 
                 <form method="" action="" className="new-post" onSubmit={handlePostSubmit}>
                     <p>Create a new post</p>
-                    <textarea placeholder="Write your post here..." onChange={handleInput} required></textarea>
+                    <textarea placeholder="Write your post here..." onChange={handleInput} value={formData} required></textarea>
                     <button>Post</button>
                 </form>
 
