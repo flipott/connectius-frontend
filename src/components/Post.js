@@ -6,13 +6,8 @@ export default function Post({currentPosts, userPosts, userLikes, likePost, unli
     const currentUser = localStorage.getItem("user");
     const [showDeleteButton, setShowDeleteButton] = React.useState(true);
     const [showDeleteModal, setShowDeleteModal] = React.useState(false);
-
-
     const post = currentPosts;
     
-    console.log(post.user.profilePicture);
-
-
     return (
         <div className="post" key={post._id}>
             <div className="post-top">

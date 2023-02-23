@@ -71,11 +71,9 @@ function App() {
       }
     });
     const json = await response.json();
-    console.log(json);
     setPosts(json[0].posts);
     setConnections(json[0].connections);
     setRequests(json[0].requests);
-    console.log(json[0]);
     setName({ "firstName": json[0].firstName, "lastName": json[0].lastName });
     setProfilePicture(json[0].profilePicture);
   }
