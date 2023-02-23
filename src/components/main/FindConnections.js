@@ -99,9 +99,6 @@ export default function FindConnections(props) {
         setCurrentConnections(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
     }
 
-
-    // Pagination({postsPerPage, totalPosts, paginate, currentPage, feedPosts})
-
     return (
         <>
             <div className="main-top">Hello.</div>
