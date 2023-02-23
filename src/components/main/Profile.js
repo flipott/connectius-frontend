@@ -8,6 +8,8 @@ export default function Profile(props) {
 
     const [formData, setFormData] = React.useState();
     const [uploadedPhoto, setUploadedPhoto] = React.useState();
+    const [showPictureUpdate, setShowPictureUpdate] = React.useState(false);
+
     const navigate = useNavigate();
     const currentUser = localStorage.getItem("user");
 
@@ -123,16 +125,6 @@ export default function Profile(props) {
             console.error(error);
         }
     }
-
-
-    // <button onClick={() => {setShowDeleteModal(true); setShowDeleteButton(false)}} style={{display: showDeleteButton ? 'block' : 'none'}}>Delete</button>
-    // <div className="delete-modal" style={{display: showDeleteModal ? 'block' : 'none'}}>
-    //     <p>Are you sure you wish to delete the post?</p>
-    //     <form onSubmit={(e) => handlePostDelete(post._id, e)}>
-    //         <button type="submit" onClick={() => {setShowDeleteButton(true); setShowDeleteModal(false)}}>Delete</button>
-    //         <button type="button" onClick={() => {setShowDeleteButton(true); setShowDeleteModal(false)}}>Cancel</button>
-
-    const [showPictureUpdate, setShowPictureUpdate] = React.useState(false);
 
     function checkFileSize(e) {
         const currentSize = e.target.files[0].size;
