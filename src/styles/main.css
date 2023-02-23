@@ -158,6 +158,26 @@
     height: 25px;
 }
 
+.loading-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 5px solid black;
+    border-top: 6px solid white;
+    margin: auto;
+    visibility: visible;
+    border-radius: 100%;
+    animation: cycle 1s infinite linear;
+}
+
+@keyframes cycle {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
 .sidebar-profile {
     display: flex;
     align-items: center;
