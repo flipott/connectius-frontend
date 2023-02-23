@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ProfilePicture from "./ProfilePicture";
 
 export default function YourConnections(props) {
 
@@ -33,8 +34,8 @@ export default function YourConnections(props) {
                     return (
                         <div className="connection-card" key={connection._id}>
                             <div className="sidebar-profile">
-                                <img src="/images/profile-temp.svg" />
-                                <p><Link to={`${connection._id}`}>{connection.firstName} {connection.lastName}</Link></p>
+                            <Link to={`/connections/${connection._id}`}> <ProfilePicture image={connection.profilePicture} /></Link>
+                            <p><Link to={`${connection._id}`}>{connection.firstName} {connection.lastName}</Link></p>
                             </div>
                             <div className="border-line"></div>
                             <form onSubmit={(e) => disconnect(connection._id, e)}>

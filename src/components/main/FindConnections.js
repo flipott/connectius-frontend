@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ProfilePicture from "./ProfilePicture";
 
 export default function FindConnections(props) {
 
@@ -75,7 +76,7 @@ export default function FindConnections(props) {
                     return (
                         <div className="user-card" key={user._id}>
                             <div className="sidebar-profile">
-                                <img src="/images/profile-temp.svg" />
+                            <Link to={`/connections/${user._id}`}> <ProfilePicture image={user.profilePicture} /></Link>
                                 <p><Link to={`/connections/${user._id}`}>{user.firstName} {user.lastName}</Link></p>
                             </div>
                             <div className="border-line"></div>

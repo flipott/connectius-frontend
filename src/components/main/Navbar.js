@@ -11,7 +11,7 @@ export default function Navbar(props) {
             </div>
             <div>
                 <div className="navbar-profile">
-                    <Link to="/profile"><img src="/images/profile-temp.svg" /></Link>
+                    <Link to="/profile">{props.profilePicture}</Link>
                     <Link to="/profile"><p>{props.firstName}</p></Link>
                 </div>
                 <Link to="/requests"><img src="/images/cogs-light.svg" /></Link>

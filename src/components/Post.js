@@ -1,18 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ProfilePicture from "./main/ProfilePicture";
 
 export default function Post({currentPosts, userPosts, userLikes, likePost, unlikePost, handlePostDelete}) {
     const currentUser = localStorage.getItem("user");
     const [showDeleteButton, setShowDeleteButton] = React.useState(true);
     const [showDeleteModal, setShowDeleteModal] = React.useState(false);
 
+
     const post = currentPosts;
+    
+    console.log(post.user.profilePicture);
+
 
     return (
         <div className="post" key={post._id}>
             <div className="post-top">
-                <img src="/images/profile-temp.svg" />
-                <div className="post-top-right">
+                    {
+                        currentUser === post.user._id ?
+                        <Link to={`/profile`}><ProfilePicture image={post.user.profilePicture} /></Link>
+                        :
+                        <Link to={`/connections/${post.user._id}`}><ProfilePicture image={post.user.profilePicture} /></Link>
+                    }                
+                    <div className="post-top-right">
                     {
                         currentUser === post.user._id ?
                         <p className="post-name"><Link to={`/profile`}>{post.user.firstName} {post.user.lastName}</Link></p>
@@ -46,7 +56,7 @@ export default function Post({currentPosts, userPosts, userLikes, likePost, unli
                 <p>{post.comments.length} Comments</p>
             </div>
             {
-                !userPosts.some(item => item._id === post._id) && (
+                !userPosts.some(item => item._id === post._id) && userLikes && (
                     <div className="post-buttons">
                     {
                         userLikes.includes(post._id) ?

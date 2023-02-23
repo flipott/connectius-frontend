@@ -2,16 +2,19 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Post from "../Post";
 import Pagination from "../Pagination";
+import ProfilePicture from "./ProfilePicture";
 
 export default function Profile(props) {
 
     const [formData, setFormData] = React.useState();
+    const [uploadedPhoto, setUploadedPhoto] = React.useState();
     const navigate = useNavigate();
     const currentUser = localStorage.getItem("user");
 
     const [posts, setPosts] = React.useState();
     const [userPosts, setUserPosts] = React.useState();
     const [userLikes, setUserLikes] = React.useState();
+
     const [currentPosts, setCurrentPosts] = React.useState();
     const [currentPage, setCurrentPage] = React.useState(1);
     const postsPerPage = 5;
@@ -98,6 +101,26 @@ export default function Profile(props) {
     
     const updateProfilePicture = async(e) => {
         e.preventDefault();
+
+        const fileInput = document.querySelector("#file");
+        const file = fileInput.files[0];
+
+        const imageData = new FormData();
+        imageData.append("file", file);
+
+        console.log(imageData)
+
+        try {
+            const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/photo`, {
+                method: "POST",
+                body: imageData
+            });
+            const data = await response.json();
+            console.log(data);
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -105,7 +128,7 @@ export default function Profile(props) {
             <div className="main-top">Your Profile</div>
             <div className="posts-container">
                 <div className="picture-update">
-                    <img src="/images/profile-temp.svg" />
+                    {props.profilePicture && <ProfilePicture image={props.profilePicture} />}
                     <form onSubmit={updateProfilePicture}>
                         <input type="file" id="file" name="file" />
                         <button>Submit</button>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import ProfilePicture from "./ProfilePicture";
 
 export default function Requests(props) {
 
@@ -53,8 +54,8 @@ export default function Requests(props) {
                     return (
                         <div className="request-card" key={request._id}>
                             <div className="sidebar-profile">
-                                <img src="/images/profile-temp.svg" />
-                                <p>{request.firstName} {request.lastName}</p>
+                            <Link to={`/connections/${request._id}`}> <ProfilePicture image={request.profilePicture} /></Link>
+                            <p><Link to={`/connections/${request._id}`}>{request.firstName} {request.lastName}</Link></p>
                             </div>
                             <div className="border-line"></div>
                             <div className="request-buttons">

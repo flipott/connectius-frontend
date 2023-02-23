@@ -5,7 +5,7 @@ export default function Navbar(props) {
     return (
         <div className="sidebar">
             <div className="sidebar-profile">
-                <Link to="/profile"><img src="/images/profile-temp.svg" /></Link>
+                <Link to="/profile">{props.profilePicture}</Link>
                 <Link to="/profile"><p>{props.firstName} {props.lastName}</p></Link>
             </div>
             <ul>

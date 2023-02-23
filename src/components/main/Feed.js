@@ -9,7 +9,7 @@ export default function Feed(props) {
     const currentUser = localStorage.getItem("user");
 
     const [feedPosts, setFeedPosts] = React.useState();
-    const [userLikes, setUserLikes] = React.useState();
+    const [userLikes, setUserLikes] = React.useState([]);
     const [userPosts, setUserPosts] = React.useState();
 
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -60,8 +60,10 @@ export default function Feed(props) {
         const json = await response.json();
         const connectionList = json[0].connections;
         const likedList = json[0].liked;
+        console.log(json);
         setUserPosts(json[0].posts);
         setUserLikes(likedList);
+        console.log(likedList);
         const totalList = connectionList.map((user) => user._id)
         totalList.push(json[0]._id);
         const string = "userList=" + totalList.join("&userList=")
