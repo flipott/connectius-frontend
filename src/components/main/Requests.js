@@ -7,6 +7,7 @@ export default function Requests(props) {
     const currentUser = localStorage.getItem("user");
     
     const [requests, setRequests] = React.useState();
+    const [loading, setLoading] = React.useState(true);
 
     // Pagination states
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -15,6 +16,7 @@ export default function Requests(props) {
     
 
     const getRequests = async () => {
+        setLoading(true);
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
           headers: {
             method: "GET",
@@ -29,6 +31,7 @@ export default function Requests(props) {
         const indexOfLastPost = currentPage * postsPerPage;
         const indexOfFirstPost = indexOfLastPost - postsPerPage;
         setCurrentRequests(filteredRequests.slice(indexOfFirstPost, indexOfLastPost));
+        setLoading(false);
     }
 
     const acceptConnection = async(recipient, e) => {
@@ -80,12 +83,13 @@ export default function Requests(props) {
 
     return (
         <>
-            <div className="main-top">Hello.</div>
+            <div className="main-top">Your Requests</div>
             <div className="posts-container">
-                <div className="text-divider">Viewing Your Connections</div>
-                { currentRequests && currentRequests.map((request) => <RequestConnection request={request} acceptConnection={acceptConnection} declineConnection={declineConnection} /> )}
-                { currentRequests && <Pagination postsPerPage={postsPerPage} totalPosts={requests.length} paginate={paginate} currentPage={currentPage} feedPosts={requests} />}            
-                  
+                {loading && <div className="loading-icon"></div>}
+                {!loading && currentRequests && currentRequests.length === 0 && <div>You do not have any requests.</div>}
+                {!loading && currentRequests && currentRequests.length > 0 && <div className="text-divider">Viewing Your Requests</div>}
+                {!loading && currentRequests && currentRequests.length > 0 && currentRequests.map((request) => <RequestConnection request={request} acceptConnection={acceptConnection} declineConnection={declineConnection} /> )}
+                {!loading && currentRequests && currentRequests.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={requests.length} paginate={paginate} currentPage={currentPage} feedPosts={requests} />}
             </div>
         </>
     )

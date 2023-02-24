@@ -9,12 +9,14 @@ export default function FindConnections(props) {
 
     const currentUser = localStorage.getItem("user");
     const [requestData, setRequestData] = React.useState();
+    const [loading, setLoading] = React.useState(true);
 
     const [currentPage, setCurrentPage] = React.useState(1);
     const [postsPerPage, setPostsPerPage] = React.useState(10);
     const [currentConnections, setCurrentConnections] = React.useState();
 
     const getAllUsers = async () => {
+        setLoading(true);
         const response = await fetch(`http://localhost:4001/user/`, {
           headers: {
             method: "GET",
@@ -30,6 +32,7 @@ export default function FindConnections(props) {
         const indexOfLastPost = currentPage * postsPerPage;
         const indexOfFirstPost = indexOfLastPost - postsPerPage;
         setCurrentConnections(filteredConnectionsTest.slice(indexOfFirstPost, indexOfLastPost));
+        setLoading(false);
     }
 
 
@@ -101,13 +104,15 @@ export default function FindConnections(props) {
 
     return (
         <>
-            <div className="main-top">Hello.</div>
+            <div className="main-top">Find Connections</div>
             <div className="posts-container">
-                <div className="text-divider">Viewing All Available Connections</div>
-                { currentConnections && currentConnections.map((user) =>
+                {loading && <div className="loading-icon"></div>}
+                {!loading && currentConnections && currentConnections.length === 0 && <div>There are no connections available.</div>}
+                {!loading && currentConnections && currentConnections.length > 0 && <div className="text-divider">Viewing All Available Connections</div> }
+                {!loading && currentConnections && currentConnections.length > 0 && currentConnections.map((user) =>
                     <AvailableConnection key={user._id} user={user} isRequested={isRequested} cancelConnectionRequest={cancelConnectionRequest} sendConnectionRequest={sendConnectionRequest} />
                 )}
-                { currentConnections && <Pagination postsPerPage={postsPerPage} totalPosts={filteredConnections.length} paginate={paginate} currentPage={currentPage} feedPosts={filteredConnections} />}
+                {!loading && currentConnections && currentConnections.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={filteredConnections.length} paginate={paginate} currentPage={currentPage} feedPosts={filteredConnections} />}
             </div>
         </>
     )
