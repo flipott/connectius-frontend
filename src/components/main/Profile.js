@@ -7,6 +7,7 @@ import ProfilePicture from "./ProfilePicture";
 export default function Profile(props) {
 
     const [formData, setFormData] = React.useState();
+    const [loading, setLoading] = React.useState(true);
     const [uploadedPhoto, setUploadedPhoto] = React.useState();
     const [showPictureUpdate, setShowPictureUpdate] = React.useState(false);
 
@@ -46,6 +47,7 @@ export default function Profile(props) {
     }
 
     const getPosts = async() => {
+        setLoading(true);
         const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
             headers: {
               method: "GET",
@@ -55,13 +57,14 @@ export default function Profile(props) {
             }
         });
         const json = await response.json();
-        const likedList = json[0].liked;
+        const likedList = json.likes;
         setPosts(json);
         setUserPosts(json);
         setUserLikes(likedList);
         const indexOfLastPost = currentPage * postsPerPage;
         const indexOfFirstPost = indexOfLastPost - postsPerPage;
         setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
+        setLoading(false);
     }
 
     React.useEffect(() => {
@@ -139,29 +142,30 @@ export default function Profile(props) {
         <>
             <div className="main-top">Your Profile</div>
             <div className="posts-container">
-                <div className="picture-update">
-                    {props.profilePicture && <ProfilePicture image={props.profilePicture} />}
-                    <a href="#" onClick={() => setShowPictureUpdate(true)} style={{display: showPictureUpdate ? 'none' : 'block'}}>Update Profile Picture</a>
-                    <form style={{display: showPictureUpdate ? 'block' : 'none'}} onSubmit={updateProfilePicture}>
-                        <p>Photo must be 1mb or less.</p>
-                        <input type="file" id="file" name="file" accept="image/*" onChange={(e) => checkFileSize(e)} required />
-                        <button type="button" onClick={() => setShowPictureUpdate(false)}>Cancel</button>
-                        <button type="submit">Submit</button>
+                {loading && <div className="loading-icon"></div>}
+                {!loading && 
+                    <div className="picture-update">
+                        {props.profilePicture && <ProfilePicture image={props.profilePicture} />}
+                        <a href="#" onClick={() => setShowPictureUpdate(true)} style={{display: showPictureUpdate ? 'none' : 'block'}}>Update Profile Picture</a>
+                        <form style={{display: showPictureUpdate ? 'block' : 'none'}} onSubmit={updateProfilePicture}>
+                            <p>Photo must be 1mb or less.</p>
+                            <input type="file" id="file" name="file" accept="image/*" onChange={(e) => checkFileSize(e)} required />
+                            <button type="button" onClick={() => setShowPictureUpdate(false)}>Cancel</button>
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                }
+                {!loading &&
+                    <form method="" action="" className="new-post" onSubmit={handlePostSubmit}>
+                        <p>Create a new post</p>
+                        <textarea placeholder="Write your post here..." onChange={handleInput} value={formData} required></textarea>
+                        <button>Post</button>
                     </form>
-                </div>
-
-                <form method="" action="" className="new-post" onSubmit={handlePostSubmit}>
-                    <p>Create a new post</p>
-                    <textarea placeholder="Write your post here..." onChange={handleInput} value={formData} required></textarea>
-                    <button>Post</button>
-                </form>
-
-                <div className="text-divider">Your Posts</div>
-                {currentPosts && currentPosts.map((post) => 
-                    <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={handlePostDelete} />
-                )}
-                {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} currentPage={currentPage} feedPosts={posts} /> }
-
+                }
+                {!loading && currentPosts && currentPosts.length === 0 && <div>You have not posted anything yet.</div>}
+                {!loading && currentPosts && currentPosts.length > 0 && <div className="text-divider">Your Posts</div>}
+                {!loading && currentPosts && currentPosts.length > 0 && currentPosts.map((post) => <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={handlePostDelete} />)}
+                {!loading && currentPosts && currentPosts.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={posts.length} paginate={paginate} currentPage={currentPage} feedPosts={posts} /> }
             </div>
         </>
     )

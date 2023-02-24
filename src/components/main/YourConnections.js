@@ -1,11 +1,13 @@
 import React from "react";
 import CurrentConnection from "./CurrentConnection";
 import Pagination from "../Pagination";
+import { Link } from "react-router-dom";
 
 export default function YourConnections(props) {
 
     const currentUser = localStorage.getItem("user");
     const [connections, setConnections] = React.useState();
+    const [loading, setLoading] = React.useState(true);
 
     // Pagination states
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -14,6 +16,7 @@ export default function YourConnections(props) {
 
 
     const getConnections = async () => {
+        setLoading(true);
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
           headers: {
             method: "GET",
@@ -28,6 +31,7 @@ export default function YourConnections(props) {
         const indexOfLastPost = currentPage * postsPerPage;
         const indexOfFirstPost = indexOfLastPost - postsPerPage;
         setCurrentConnections(filteredConnections.slice(indexOfFirstPost, indexOfLastPost));
+        setLoading(false);
     }
 
     const disconnect = async(recipient, e) => {
@@ -61,11 +65,13 @@ export default function YourConnections(props) {
 
     return (
         <>
-            <div className="main-top">Hello.</div>
+            <div className="main-top">Your Connections</div>
             <div className="posts-container">
-                <div className="text-divider">Viewing Your Connections</div>
-                { currentConnections && currentConnections.map((connection) => <CurrentConnection key={connection._id} connection={connection} disconnect={disconnect} /> )}
-                { currentConnections && <Pagination postsPerPage={postsPerPage} totalPosts={connections.length} paginate={paginate} currentPage={currentPage} feedPosts={connections} />}            
+                {loading && <div className="loading-icon"></div>}
+                {!loading && currentConnections && currentConnections.length === 0 && <div>You are currently not connected with anyone. <Link to="find-connections">Find Connections here!</Link></div>}
+                {!loading && currentConnections && currentConnections.length > 0 && <div className="text-divider">Viewing Your Connections</div> }
+                {!loading && currentConnections && currentConnections.length > 0 && currentConnections.map((connection) => <CurrentConnection key={connection._id} connection={connection} disconnect={disconnect} /> )}
+                {!loading && currentConnections && currentConnections.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={connections.length} paginate={paginate} currentPage={currentPage} feedPosts={connections} />}            
             </div>
         </>
     )
