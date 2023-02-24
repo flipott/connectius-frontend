@@ -20,12 +20,11 @@ export default function Liked(props) {
 
     const getLikedPosts = async(postList) => {
         const response = await fetch(`http://localhost:4001/post/?${postList}`, {
+            method: "GET",
             headers: {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-            }
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+            },
         });
         const json = await response.json();
         setLikedPosts(json);
@@ -37,12 +36,11 @@ export default function Liked(props) {
     const getPosts = async () => {
         setLoading(true);
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+            method: "GET",
             headers: {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-            }
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+            },
         });
         const json = await response.json();
         const likedList = json[0].liked;
@@ -66,6 +64,7 @@ export default function Liked(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });
@@ -82,6 +81,7 @@ export default function Liked(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });

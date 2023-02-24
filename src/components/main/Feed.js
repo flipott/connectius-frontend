@@ -25,6 +25,7 @@ export default function Feed(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
             });
             getFeed();
@@ -36,12 +37,11 @@ export default function Feed(props) {
 
     const getFeedPosts = async(userList) => {
         const response = await fetch(`http://localhost:4001/post/?${userList}`, {
-            headers: {
               method: "GET",
               headers: {
                   "Content-Type": "application/json",
+                  "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
               },
-            }
         });
         const json = await response.json();
         setFeedPosts(json);
@@ -55,12 +55,11 @@ export default function Feed(props) {
         setLoading(true);
         
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
-            headers: {
               method: "GET",
               headers: {
                   "Content-Type": "application/json",
+                  "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
               },
-            }
         });
         const json = await response.json();
         const connectionList = json[0].connections;
@@ -82,6 +81,7 @@ export default function Feed(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });
@@ -98,6 +98,7 @@ export default function Feed(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });

@@ -6,12 +6,6 @@ export default function Login(props) {
     const [formData, setFormData] = React.useState({});
     const [formError, setFormError] = React.useState({});
     const navigate = useNavigate();
-
-    // const [isLoggedIn, setIsLoggedIn] = React.useState(props.loggedIn);
-
-    // React.useEffect(() => {
-    //     setIsLoggedIn(props.loggedIn);
-    // }, [props.loggedIn]);
   
     React.useEffect(() => {
         if (props.loggedIn) {
@@ -27,6 +21,7 @@ export default function Login(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(formData)
             });

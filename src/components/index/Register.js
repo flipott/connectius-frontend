@@ -19,6 +19,7 @@ export default function Register(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(formData)
             });

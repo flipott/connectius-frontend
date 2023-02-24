@@ -37,6 +37,7 @@ export default function Profile(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
             });
             getPosts();
@@ -49,12 +50,11 @@ export default function Profile(props) {
     const getPosts = async() => {
         setLoading(true);
         const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
+            method: "GET",
             headers: {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-            }
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+        }
         });
         const json = await response.json();
         const likedList = json.likes;
@@ -80,6 +80,7 @@ export default function Profile(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({ body: formData })
             });

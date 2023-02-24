@@ -18,12 +18,11 @@ export default function Requests(props) {
     const getRequests = async () => {
         setLoading(true);
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
-          headers: {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-          }
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+        },
         });
         const json = await response.json();
         setRequests(json[0].requests);
@@ -42,6 +41,8 @@ export default function Requests(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+
                 },
                 body: JSON.stringify({recipient})
             });
@@ -60,6 +61,7 @@ export default function Requests(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });
@@ -88,7 +90,7 @@ export default function Requests(props) {
                 {loading && <div className="loading-icon"></div>}
                 {!loading && currentRequests && currentRequests.length === 0 && <div>You do not have any requests.</div>}
                 {!loading && currentRequests && currentRequests.length > 0 && <div className="text-divider">Viewing Your Requests</div>}
-                {!loading && currentRequests && currentRequests.length > 0 && currentRequests.map((request) => <RequestConnection request={request} acceptConnection={acceptConnection} declineConnection={declineConnection} /> )}
+                {!loading && currentRequests && currentRequests.length > 0 && currentRequests.map((request) => <RequestConnection key={request._id} request={request} acceptConnection={acceptConnection} declineConnection={declineConnection} /> )}
                 {!loading && currentRequests && currentRequests.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={requests.length} paginate={paginate} currentPage={currentPage} feedPosts={requests} />}
             </div>
         </>

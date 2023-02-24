@@ -18,12 +18,11 @@ export default function FindConnections(props) {
     const getAllUsers = async () => {
         setLoading(true);
         const response = await fetch(`http://localhost:4001/user/`, {
-          headers: {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
+              "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
             },
-          } 
         });
         const json = await response.json();
         const filteredUsers = json.filter(user => user._id !== currentUser);
@@ -65,6 +64,7 @@ export default function FindConnections(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });
@@ -84,6 +84,7 @@ export default function FindConnections(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });

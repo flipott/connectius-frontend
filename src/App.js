@@ -47,7 +47,7 @@ function App() {
   const checkLoginStatus = async () => {
     const response = await fetch("http://localhost:4001/auth", {
         headers: {
-            Authorization: `Bearer ${window.localStorage.getItem("token")}`
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
     }); 
     const json = await response.json();
@@ -63,12 +63,11 @@ function App() {
 
   const getLoginItems = async () => {
     const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}`, {
+      method: "GET",
       headers: {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-      }
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+      },
     });
     const json = await response.json();
     setPosts(json[0].posts);
@@ -80,12 +79,12 @@ function App() {
 
   const getAllUsers = async () => {
     const response = await fetch(`http://localhost:4001/user/`, {
+      method: "GET",
       headers: {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      } 
+        "Content-Type": "application/json",
+        "TEST": "TEST",
+        "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+      },
     });
     const json = await response.json();
     setAllUsers(json);

@@ -18,11 +18,10 @@ export default function YourConnections(props) {
     const getConnections = async () => {
         setLoading(true);
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
-          headers: {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
           }
         });
         const json = await response.json();
@@ -42,6 +41,7 @@ export default function YourConnections(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });

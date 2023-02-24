@@ -29,11 +29,10 @@ export default function ConnectedProfile(props) {
     }
     const getProfileName = async(connectionId) => {
         const response = await fetch(`http://localhost:4001/user/${connectionId}/`, {
+            method: "GET",
             headers: {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-              },
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
             }
         });
         const json = await response.json();
@@ -47,12 +46,11 @@ export default function ConnectedProfile(props) {
 
     const getConnectionPosts = async(connectionId) => {
         const response = await fetch(`http://localhost:4001/user/${connectionId}/post`, {
-            headers: {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-            }
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+            },
         });
         const json = await response.json();
         setFeedPosts(json);
@@ -65,12 +63,11 @@ export default function ConnectedProfile(props) {
     const getConnectionFeed = async (connectionId) => {
 
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
-            headers: {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-              },
-            }
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+        },
         });
         const json = await response.json();
         const connectionList = json[0].connections;
@@ -97,6 +94,7 @@ export default function ConnectedProfile(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });
@@ -113,6 +111,7 @@ export default function ConnectedProfile(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });
@@ -130,6 +129,7 @@ export default function ConnectedProfile(props) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });
@@ -148,6 +148,7 @@ export default function ConnectedProfile(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify({currentUser})
             });
@@ -199,7 +200,7 @@ export default function ConnectedProfile(props) {
                 }
 
                 {(currentPosts && isConnected) && currentPosts.map((post) =>
-                    <Post currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={null} />
+                    <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={null} />
                 )}
                 {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
 

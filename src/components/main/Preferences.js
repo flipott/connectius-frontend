@@ -19,10 +19,6 @@ export default function Preferences(props) {
     
     const navigate = useNavigate();
 
-    if (props.loggedIn) {
-        navigate("/feed");
-    }
-
     const updateName = async(e) => {
         e.preventDefault();
 
@@ -31,6 +27,7 @@ export default function Preferences(props) {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(nameFormData),
             });
@@ -54,6 +51,7 @@ export default function Preferences(props) {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(emailFormData),
             });
@@ -77,6 +75,7 @@ export default function Preferences(props) {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
                 body: JSON.stringify(passwordFormData),
             });
@@ -100,6 +99,7 @@ export default function Preferences(props) {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 }
             });
             const data = await response.json();
@@ -119,6 +119,7 @@ export default function Preferences(props) {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
             });
             const data = await response.json();
