@@ -8,6 +8,7 @@ export default function Liked(props) {
     const navigate = useNavigate();
     const currentUser = localStorage.getItem("user");
 
+    const [loading, setLoading] = React.useState(true);
     const [likedPosts, setLikedPosts] = React.useState();
     const [userLikes, setUserLikes] = React.useState();
     const [userPosts, setUserPosts] = React.useState();
@@ -34,6 +35,7 @@ export default function Liked(props) {
     }
 
     const getPosts = async () => {
+        setLoading(true);
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
             headers: {
               method: "GET",
@@ -47,7 +49,14 @@ export default function Liked(props) {
         setUserPosts(json[0].posts);
         setUserLikes(likedList);
         const string = "postList=" + likedList.join("&postList=")
-        await getLikedPosts(string);
+        // No likes
+        if (string === "postList=") {
+            setLikedPosts([]);
+            setCurrentPosts([]);
+        } else {
+            await getLikedPosts(string);
+        }
+        setLoading(false);
     }
 
     const likePost = async(post, e) => {
@@ -100,18 +109,15 @@ export default function Liked(props) {
 
     return (
         <>
-            <div className="main-top">Welcome back!</div>
+            <div className="main-top">Liked Posts</div>
             <div className="posts-container">
-                <div className="text-divider">Viewing Your Feed</div>
-
-                {!likedPosts && <h2>Loading...</h2>}
-
-                {currentPosts && currentPosts.map((post) => 
+                {loading && <div className="loading-icon"></div>}
+                {!loading && currentPosts && currentPosts.length === 0 && <div>You do not have any liked posts.</div>}
+                {!loading && currentPosts && currentPosts.length > 0 && <div className="text-divider">Viewing Your Liked Posts</div>}
+                {!loading && currentPosts && currentPosts.length > 0 && currentPosts.map((post) => 
                     <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={null} />
                 )}
-
-                { currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={likedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={likedPosts} /> }
-
+                {!loading && currentPosts && currentPosts.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={likedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={likedPosts} /> }
             </div>
         </>
     );

@@ -5,6 +5,8 @@ export default function Preferences(props) {
 
     const currentUser = localStorage.getItem("user");
 
+    const [loading, setLoading] = React.useState(true);
+
     const [nameFormData, setNameFormData] = React.useState({firstName: "", lastName: ""});
     const [emailFormData, setEmailFormData] = React.useState({email: ""});
     const [passwordFormData, setPasswordFormData] = React.useState({currentPassword: "", newPassword: "", confirmNewPassword: ""});
@@ -92,6 +94,7 @@ export default function Preferences(props) {
     }
 
     const getName = async() => {
+        setLoading(true);
         try {
             const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
                 method: "GET",
@@ -105,6 +108,7 @@ export default function Preferences(props) {
         } catch(error) {
             console.error(error);
         }
+        setLoading(false);
     };
 
     const deleteAccount = async(e) => {
@@ -140,6 +144,8 @@ export default function Preferences(props) {
     return (
         <>
             <div className="main-top">Your Preferences</div>
+            {loading && <div className="loading-icon"></div>}
+            {!loading && 
             <div className="posts-container preferences">
                 <form onSubmit={updateName}>
                     {nameFormError.length && <div className="form-error">{nameFormError}</div> }
@@ -173,15 +179,16 @@ export default function Preferences(props) {
                 <form className="preferences-delete" onSubmit={(e) => {e.preventDefault(); setShowDeleteModal(true)}}>
                     <button>Delete Account</button>
                 </form>
+                <div className="delete-modal" style={{display: showDeleteModal ? 'block' : 'none'}}>
+                    <form onSubmit={deleteAccount}>
+                        <p>Are you sure you wish to permanently delete your account?</p>
+                        <p><strong>This action cannot be undone.</strong></p>
+                        <button type="button" onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
             </div>
-            <div className="delete-modal" style={{display: showDeleteModal ? 'block' : 'none'}}>
-                <form onSubmit={deleteAccount}>
-                    <p>Are you sure you wish to permanently delete your account?</p>
-                    <p><strong>This action cannot be undone.</strong></p>
-                    <button type="button" onClick={() => setShowDeleteModal(false)}>Cancel</button>
-                    <button type="submit">Delete</button>
-                </form>
-            </div>
+}
         </>
     )
 }
