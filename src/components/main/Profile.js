@@ -68,9 +68,6 @@ export default function Profile(props) {
     }
 
     React.useEffect(() => {
-        if (!props.loggedIn) {
-            navigate("/", { replace: true });
-        }
         getPosts()
         window.scrollTo(0, 0)
     }, [currentPage])

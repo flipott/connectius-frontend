@@ -109,12 +109,8 @@ export default function Feed(props) {
   
 
     React.useEffect(() => {
-        if (!props.loggedIn) {
-            navigate("/", { replace: true }); 
-        } else {
-            getFeed()
-            window.scrollTo(0, 0)
-        }
+        getFeed()
+        window.scrollTo(0, 0)
     }, [currentPage])
 
     const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {

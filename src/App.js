@@ -103,13 +103,13 @@ function App() {
         <Route exact path="/" element={<IndexLayout component={<Login loggedIn={loggedIn} />} />} />
         <Route path="/register" element={<IndexLayout component={<Register loggedIn={loggedIn} />} />} />
         <Route path="/about" element={<IndexLayout component={<About />} />} />
-        <Route path="/profile" element={<MainLayout name={name} profilePicture={profilePicture} component={<Profile posts={posts} loggedIn={loggedIn} profilePicture={profilePicture} />} />} />
-        <Route path="/connections" element={<MainLayout name={name} profilePicture={profilePicture} component={<YourConnections connections={connections} loggedIn={loggedIn} />} />} />
-        <Route path="/connections/:connectionId" element={<MainLayout name={name} profilePicture={profilePicture} component={<ConnectedProfile loggedIn={loggedIn} />} />} />
-        <Route path="/find-connections" element={<MainLayout name={name} profilePicture={profilePicture} component={<FindConnections allUsers={allUsers} loggedIn={loggedIn} />} />} />
-        <Route path="/requests" element={<MainLayout name={name} profilePicture={profilePicture} component={<Requests requests={requests} loggedIn={loggedIn} />} />} />
-        <Route path="/feed" element={<MainLayout name={name} profilePicture={profilePicture} component={<Feed post={testPost} loggedIn={loggedIn} />} />} />
-        <Route path="/liked" element={<MainLayout name={name} profilePicture={profilePicture} component={<Liked post={testPost} loggedIn={loggedIn} />} />} />
+        <Route path="/profile" element={<MainLayout name={name} profilePicture={profilePicture} component={<Profile profilePicture={profilePicture} />} />} />
+        <Route path="/connections" element={<MainLayout name={name} profilePicture={profilePicture} component={<YourConnections />} />} />
+        <Route path="/connections/:connectionId" element={<MainLayout name={name} profilePicture={profilePicture} component={<ConnectedProfile />} />} />
+        <Route path="/find-connections" element={<MainLayout name={name} profilePicture={profilePicture} component={<FindConnections />} />} />
+        <Route path="/requests" element={<MainLayout name={name} profilePicture={profilePicture} component={<Requests />} />} />
+        <Route path="/feed" element={<MainLayout name={name} profilePicture={profilePicture} component={<Feed />} />} />
+        <Route path="/liked" element={<MainLayout name={name} profilePicture={profilePicture} component={<Liked />} />} />
         <Route path="/preferences" element={<MainLayout name={name} profilePicture={profilePicture} component={<Preferences />} />} />
       </Routes>
     </BrowserRouter>

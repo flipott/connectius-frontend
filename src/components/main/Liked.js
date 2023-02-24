@@ -92,12 +92,8 @@ export default function Liked(props) {
     }
   
     React.useEffect(() => {
-        if (!props.loggedIn) {
-            navigate("/", { replace: true }); 
-        } else {
-            getPosts()
-            window.scrollTo(0, 0)
-        }
+        getPosts()
+        window.scrollTo(0, 0)
     }, [currentPage])
 
     const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {

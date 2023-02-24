@@ -5,10 +5,27 @@ import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Rightbar from "./Rightbar";
 import ProfilePicture from "./ProfilePicture";
+import checkLoginStatus from "../checkLoginStatus";
 
 export default function MainLayout(props) {
 
     const { name, profilePicture } = props;
+    const navigate = useNavigate();
+
+    const check = async() => {
+        const loggedIn = await checkLoginStatus();
+        if (loggedIn) {
+            return null;
+        } else {
+            navigate("/");
+            window.location.reload();
+        }
+    }
+
+    React.useEffect(() => {
+        check();
+    }, [props.component])
+
 
     return name === undefined ? null :  (
         <div className="page-wrap">
