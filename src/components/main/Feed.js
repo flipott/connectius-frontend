@@ -8,7 +8,7 @@ export default function Feed(props) {
     const navigate = useNavigate();
     const currentUser = localStorage.getItem("user");
 
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
 
     const [feedPosts, setFeedPosts] = React.useState();
     const [userLikes, setUserLikes] = React.useState([]);
