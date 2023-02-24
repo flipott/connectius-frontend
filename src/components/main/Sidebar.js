@@ -1,7 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar(props) {
+    const navigate = useNavigate();
+
+    const logOut = (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        localStorage.removeItem("user")
+        navigate("/");
+    }
+
     return (
         <div className="sidebar">
             <div className="sidebar-profile">
@@ -44,7 +54,7 @@ export default function Navbar(props) {
                     <li>
                         <div>
                             <img src="/images/door-dark.svg" />
-                            <Link to="/logout">Log Out</Link>
+                            <a href="#" onClick={logOut}>Log Out</a>
                         </div>
                     </li>
             </ul>
