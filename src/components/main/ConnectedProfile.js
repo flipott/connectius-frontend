@@ -160,12 +160,8 @@ export default function ConnectedProfile(props) {
   
 
     React.useEffect(() => {
-        if (!props.loggedIn) {
-            navigate("/", { replace: true }); 
-        } else {
-            getConnectionFeed(connectionId)
-            window.scrollTo(0, 0)
-        }
+        getConnectionFeed(connectionId)
+        window.scrollTo(0, 0)
     }, [currentPage])
 
     const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
