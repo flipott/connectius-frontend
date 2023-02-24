@@ -21,28 +21,12 @@ import Requests from "./components/main/Requests";
 import ConnectedProfile from "./components/main/ConnectedProfile";
 
 import { useLocation } from "react-router-dom";
-
-
-
-const testPost = {
-  "firstName": "Phil",
-  "lastName": "Ott",
-  "body": "I'm testing this out again.",
-  "comments": [],
-  "likes": [],
-  "time": "2023-02-05T03:19:40.616Z",
-  "__v": 0
-}
-
 function App() {
+
   
   const [loggedIn, setLoggedIn] = React.useState(false);
-  const [posts, setPosts] = React.useState();
   const [name, setName] = React.useState();
   const [profilePicture, setProfilePicture] = React.useState();
-  const [connections, setConnections] = React.useState();
-  const [requests, setRequests] = React.useState();
-  const [allUsers, setAllUsers] = React.useState();
 
   const checkLoginStatus = async () => {
     const response = await fetch("http://localhost:4001/auth", {
@@ -54,7 +38,6 @@ function App() {
     if (json["result"] === "true") {
         setLoggedIn(true);
         getLoginItems();
-        getAllUsers();
 
     } else {
         setLoggedIn(false);
@@ -70,24 +53,8 @@ function App() {
       },
     });
     const json = await response.json();
-    setPosts(json[0].posts);
-    setConnections(json[0].connections);
-    setRequests(json[0].requests);
     setName({ "firstName": json[0].firstName, "lastName": json[0].lastName });
     setProfilePicture(json[0].profilePicture);
-  }
-
-  const getAllUsers = async () => {
-    const response = await fetch(`http://localhost:4001/user/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "TEST": "TEST",
-        "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-      },
-    });
-    const json = await response.json();
-    setAllUsers(json);
   }
 
   React.useEffect(() => {

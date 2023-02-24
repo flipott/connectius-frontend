@@ -4,7 +4,6 @@ import Post from "../Post";
 import Pagination from "../Pagination";
 
 export default function Feed(props) {
-
     const navigate = useNavigate();
     const currentUser = localStorage.getItem("user");
 
