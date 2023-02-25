@@ -49,9 +49,10 @@ export default function Feed(props) {
         setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
     }
 
-    const getFeed = async () => {
-
-        setLoading(true);
+    const getFeed = async (withLoading) => {
+        if (withLoading) {
+            setLoading(true);
+        }
         
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
               method: "GET",
@@ -70,7 +71,9 @@ export default function Feed(props) {
         const string = "userList=" + totalList.join("&userList=")
         await getFeedPosts(string);
 
-        setLoading(false);
+        if (withLoading) {
+            setLoading(false);
+        }
     }
 
     const likePost = async(post, e) => {
@@ -84,7 +87,7 @@ export default function Feed(props) {
                 },
                 body: JSON.stringify({currentUser})
             });
-            getFeed();
+            getFeed(false);
         } catch(error) {
             console.log(error);
         }    
@@ -101,7 +104,7 @@ export default function Feed(props) {
                 },
                 body: JSON.stringify({currentUser})
             });
-            getFeed();
+            getFeed(false);
         } catch(error) {
             console.log(error);
         }    
@@ -109,7 +112,7 @@ export default function Feed(props) {
   
 
     React.useEffect(() => {
-        getFeed()
+        getFeed(true)
         window.scrollTo(0, 0)
     }, [currentPage])
 
