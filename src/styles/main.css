@@ -332,11 +332,48 @@
 
 .picture-update img {
     border-radius: 8px;
+    height: 90px;
+    width: 90px;
+    object-fit: cover;
 }
 
 .picture-update a {
     color: black;
     font-size: 0.8rem;
+}
+
+.picture-update form div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.picture-update form button,
+.picture-update form input {
+    padding: 5px;
+}
+
+.picture-update form button {
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.picture-update form input {
+    width: 200px;
+    overflow: hidden;
+    font-size: 0.8rem;
+}
+
+.picture-update form p {
+    font-size: 0.8rem;
+}
+
+.picture-update form {
+    display: flex;
+    align-items: center;
+    padding: 15px;
 }
 
 .preferences form {
