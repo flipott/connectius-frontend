@@ -34,6 +34,7 @@ export default function Login(props) {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', data.user)
                 navigate("/feed");
+                window.location.reload();
             }
         } catch(error) {
             console.error(error);

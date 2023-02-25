@@ -10,6 +10,7 @@ export default function Navbar(props) {
         localStorage.removeItem("token");
         localStorage.removeItem("user")
         navigate("/");
+        window.location.reload();
     }
 
     return (
