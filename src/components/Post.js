@@ -4,12 +4,19 @@ import ProfilePicture from "./main/ProfilePicture";
 
 export default function Post({currentPosts, userPosts, userLikes, likePost, unlikePost, handlePostDelete}) {
     const currentUser = localStorage.getItem("user");
-    const [showDeleteButton, setShowDeleteButton] = React.useState(true);
     const [showDeleteModal, setShowDeleteModal] = React.useState(false);
     const post = currentPosts;
     
     return (
         <div className="post" key={post._id}>
+                                <div className="delete-modal" style={{display: showDeleteModal ? 'flex' : 'none'}}>
+                <p>Delete Post</p>
+                <form onSubmit={(e) => handlePostDelete(post._id, e)}>
+                    <button type="submit" onClick={() => {setShowDeleteModal(false)}}>Delete</button>
+                    <button type="button" onClick={() => {setShowDeleteModal(false)}}>Cancel</button>
+                </form>
+            </div>
+
             <div className="post-top">
                     {
                         currentUser === post.user._id ?
@@ -25,19 +32,12 @@ export default function Post({currentPosts, userPosts, userLikes, likePost, unli
                         <p className="post-name"><Link to={`/connections/${post.user._id}`}>{post.user.firstName} {post.user.lastName}</Link></p>
                     }
                     <p className="post-time">{new Date(post.time).toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric', hour: 'numeric', minute: 'numeric'})}</p>
-                </div>
-                { currentUser === post.user._id && 
+                    </div>
+                    { currentUser === post.user._id && 
                 <>
-                <button onClick={() => {setShowDeleteModal(true); setShowDeleteButton(false)}} style={{display: showDeleteButton ? 'block' : 'none'}}>Delete</button>
-                <div className="delete-modal" style={{display: showDeleteModal ? 'block' : 'none'}}>
-                    <p>Are you sure you wish to delete the post?</p>
-                    <form onSubmit={(e) => handlePostDelete(post._id, e)}>
-                        <button type="submit" onClick={() => {setShowDeleteButton(true); setShowDeleteModal(false)}}>Delete</button>
-                        <button type="button" onClick={() => {setShowDeleteButton(true); setShowDeleteModal(false)}}>Cancel</button>
-                    </form>
-                </div>
+                <a href="#" className="trash-icon" onClick={(e) => {e.preventDefault(); setShowDeleteModal(true);}} style={{display: !showDeleteModal ? 'flex' : 'none'}}><img src="/images/trash.svg" /></a>
                 </>
-                }
+            }
             </div>
             <div className="post-body">{post.body}</div>
             <div className="border-line" />
@@ -48,7 +48,6 @@ export default function Post({currentPosts, userPosts, userLikes, likePost, unli
                     :
                     <p>{post.likes.length} Likes</p>
                 }
-                <p>{post.comments.length} Comments</p>
             </div>
             {
                 !userPosts.some(item => item._id === post._id) && userLikes && (
