@@ -2,8 +2,17 @@ import React from "react";
 import IndexFooter from "./IndexFooter";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function IndexLayout(props) {
+    const navigate = useNavigate();
+
+    React.useEffect(() => {
+        if (props.loggedIn) {
+            navigate("/feed", {replace: true});
+        }
+    }, [props.loggedIn]);
+
 
     const animatedText = [
         `<p class="animated-text">Socializing made <span class="animated-orange">simple.</span></p>`,

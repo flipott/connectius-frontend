@@ -15,12 +15,10 @@ import Liked from "./components/main/Liked";
 import Preferences from "./components/main/Preferences";
 
 import YourConnections from "./components/main/YourConnections";
-import AllConnections from "./components/main/FindConnections";
 import FindConnections from "./components/main/FindConnections";
 import Requests from "./components/main/Requests";
 import ConnectedProfile from "./components/main/ConnectedProfile";
 
-import { useLocation } from "react-router-dom";
 function App() {
 
   
@@ -66,9 +64,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<IndexLayout component={<Login loggedIn={loggedIn} />} />} />
-        <Route path="/register" element={<IndexLayout component={<Register loggedIn={loggedIn} />} />} />
-        <Route path="/about" element={<IndexLayout component={<About />} />} />
+        <Route exact path="/" element={<IndexLayout loggedIn={loggedIn} component={<Login loggedIn={loggedIn} />} />} />
+        <Route path="/register" element={<IndexLayout loggedIn={loggedIn} component={<Register loggedIn={loggedIn} />} />} />
+        <Route path="/about" element={<IndexLayout loggedIn={loggedIn} component={<About />} />} />
         <Route path="/profile" element={<MainLayout name={name} profilePicture={profilePicture} component={<Profile profilePicture={profilePicture} />} />} />
         <Route path="/connections" element={<MainLayout name={name} profilePicture={profilePicture} component={<YourConnections />} />} />
         <Route path="/connections/:connectionId" element={<MainLayout name={name} profilePicture={profilePicture} component={<ConnectedProfile />} />} />

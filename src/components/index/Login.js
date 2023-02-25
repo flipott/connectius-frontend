@@ -7,11 +7,11 @@ export default function Login(props) {
     const [formError, setFormError] = React.useState({});
     const navigate = useNavigate();
   
-    React.useEffect(() => {
-        if (props.loggedIn) {
-            navigate("/feed", {replace: true});
-        }
-    }, [props.loggedIn]);
+    // React.useEffect(() => {
+    //     if (props.loggedIn) {
+    //         navigate("/feed", {replace: true});
+    //     }
+    // }, [props.loggedIn]);
 
     const handleLogin = async(e) => {
         e.preventDefault();
