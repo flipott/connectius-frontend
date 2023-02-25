@@ -90,6 +90,9 @@
     height: 100%;
     max-height: 500px;
     font-family: Lato, sans-serif;
+    position: sticky;
+    position: -webkit-sticky; 
+    top: 0;
 }
 
 .rightbar {
@@ -183,13 +186,31 @@
 .sidebar-profile {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly ; */
+    justify-content: center;
+    gap: 12px;
 }
 
 .sidebar-profile a {
     text-decoration: none;
     color: black;
     font-weight: 600;
+}
+
+.sidebar-profile p {
+    flex: 1;
+    margin-top: auto;
+}
+
+.sidebar-profile div {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.sidebar-profile div:last-of-type {
+    justify-content: flex-start;
 }
 
 .sidebar-profile img {
@@ -462,3 +483,4 @@
     color: white;
     cursor: default;
 } 
+
