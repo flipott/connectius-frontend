@@ -189,6 +189,8 @@
     /* justify-content: space-evenly ; */
     justify-content: center;
     gap: 12px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .sidebar-profile a {
@@ -197,9 +199,11 @@
     font-weight: 600;
 }
 
+
 .sidebar-profile p {
     flex: 1;
     margin-top: auto;
+    max-width: 120px;
 }
 
 .sidebar-profile div {
@@ -213,7 +217,8 @@
     justify-content: flex-start;
 }
 
-.sidebar-profile img {
+.sidebar-profile img,
+.user-card-top img {
     border-radius: 8px;
     height: 70px;
     width: 70px;
@@ -260,19 +265,7 @@
 .post-body {
     font-size: 1.4rem;
     word-break: break-word;
-    /* word-break: break-all; */
-    /* overflow: hidden;
-    /* display: flex;   */
-    /* flex-direction: column;
-    word-wrap: break-word; */ 
 }
-
-/* @media (max-width: 850px) {
-    .post,
-    .new-post {
-        max-width: 300px;
-    }
-} */
 
 .new-post > p {
     font-size: 1.4rem;
@@ -281,7 +274,7 @@
 .new-post > textarea {
     font-family: Lato, sans-serif;
     padding: 8px;
-    resize: none;
+    resize: none; 
     border: #ABABAB solid 1px;
     border-radius: 8px;
     overflow: auto;
@@ -353,6 +346,9 @@
     font-weight: 600;
     font-size: 1.2rem;
     margin-bottom: 8px;
+    max-width: 155px;
+    overflow: hidden;
+    padding: 2px 0;
 }
 
 .post a {
@@ -508,3 +504,51 @@
     cursor: default;
 } 
 
+.user-card {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    align-items: center;
+    width: 250px;
+    overflow: hidden;
+}
+
+.user-card-top {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+.user-card-top p {
+    width: 50%;
+}
+
+.user-card button {
+    font-size: 1rem;
+}
+
+
+.user-card-top a {
+    text-decoration: none;
+    color: black;
+    font-weight: 600;
+}
+
+.request-connections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+.request-buttons {
+    display: flex;
+    gap: 12px;
+}
