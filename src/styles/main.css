@@ -431,3 +431,34 @@
     margin-left: auto;
     margin-bottom: auto;
 }
+
+.pagination {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination button {
+    background: white;
+    padding: 5px 8px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.pagination button:hover {
+    background: rgb(210, 210, 210);
+}
+
+.pagination button:disabled {
+    background: rgb(210, 210, 210);
+    user-select: none;
+    cursor: default;
+}
+
+.page-link.selected,
+.page-link.selected:hover  {
+    user-select: none;
+    background: #F99D47;
+    color: white;
+    cursor: default;
+} 
