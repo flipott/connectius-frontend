@@ -38,6 +38,13 @@ export default function Register(props) {
     };
 
     const handleInput = (e) => {
+        if (e.target.name === "first-name" || e.target.name === "last-name") {
+            const val = e.target.value;
+            const regex = /^[a-zA-Z-]+$/;
+            if (!regex.test(val)) {
+                return e.target.value = e.target.value.slice(0,-1 );
+            }
+        }
         setFormData({...formData, [e.target.name]: e.target.value});
     };
 
