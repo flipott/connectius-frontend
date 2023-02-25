@@ -158,7 +158,7 @@ export default function Profile(props) {
                 {!loading &&
                     <form method="" action="" className="new-post" onSubmit={handlePostSubmit}>
                         <p>Create a new post</p>
-                        <textarea placeholder="Write your post here..." onChange={handleInput} value={formData} required></textarea>
+                        <textarea placeholder="Write your post here..." onChange={handleInput} value={formData} minLength={1} maxLength={150} required></textarea>
                         <button>Post</button>
                     </form>
                 }
