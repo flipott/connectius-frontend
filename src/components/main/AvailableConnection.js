@@ -6,9 +6,9 @@ export default function AvailableConnection(props) {
     const { user, isRequested, cancelConnectionRequest, sendConnectionRequest } = props;
     return (
         <div className="user-card" key={user._id}>
-            <div className="sidebar-profile">
-            <Link to={`/connections/${user._id}`}> <ProfilePicture image={user.profilePicture} /></Link>
-            <p><Link to={`/connections/${user._id}`}>{user.firstName} {user.lastName}</Link></p>
+            <div className="user-card-top">
+                <Link to={`/connections/${user._id}`}> <ProfilePicture image={user.profilePicture} /></Link>
+                <p><Link to={`/connections/${user._id}`}>{user.firstName} {user.lastName}</Link></p>
             </div>
             <div className="border-line"></div>
             {

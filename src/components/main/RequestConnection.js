@@ -5,8 +5,8 @@ import ProfilePicture from "./ProfilePicture";
 export default function RequestConnection(props) {
     const { request, acceptConnection, declineConnection } = props;
     return (
-        <div className="request-card" key={request._id}>
-            <div className="sidebar-profile">
+        <div className="user-card" key={request._id}>
+            <div className="user-card-top">
             <Link to={`/connections/${request._id}`}> <ProfilePicture image={request.profilePicture} /></Link>
             <p><Link to={`/connections/${request._id}`}>{request.firstName} {request.lastName}</Link></p>
             </div>

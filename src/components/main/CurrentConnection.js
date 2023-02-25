@@ -6,8 +6,8 @@ export default function CurrentConnection(props) {
     const { connection, disconnect } = props;
 
     return (
-        <div className="connection-card" key={connection._id}>
-            <div className="sidebar-profile">
+        <div className="user-card" key={connection._id}>
+            <div className="user-card-top">
             <Link to={`/connections/${connection._id}`}> <ProfilePicture image={connection.profilePicture} /></Link>
             <p><Link to={`${connection._id}`}>{connection.firstName} {connection.lastName}</Link></p>
             </div>

@@ -70,7 +70,11 @@ export default function YourConnections(props) {
                 {loading && <div className="loading-icon"></div>}
                 {!loading && currentConnections && currentConnections.length === 0 && <div>You are currently not connected with anyone. <Link to="find-connections">Find Connections here!</Link></div>}
                 {!loading && currentConnections && currentConnections.length > 0 && <div className="text-divider">Viewing Your Connections</div> }
-                {!loading && currentConnections && currentConnections.length > 0 && currentConnections.map((connection) => <CurrentConnection key={connection._id} connection={connection} disconnect={disconnect} /> )}
+                {!loading && currentConnections && currentConnections.length > 0 && 
+                <div className="request-connections">
+                    {currentConnections.map((connection) => <CurrentConnection key={connection._id} connection={connection} disconnect={disconnect} /> )}
+                </div>    
+                }
                 {!loading && currentConnections && currentConnections.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={connections.length} paginate={paginate} currentPage={currentPage} feedPosts={connections} />}            
             </div>
         </>

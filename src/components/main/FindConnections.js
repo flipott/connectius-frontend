@@ -110,9 +110,13 @@ export default function FindConnections(props) {
                 {loading && <div className="loading-icon"></div>}
                 {!loading && currentConnections && currentConnections.length === 0 && <div>There are no connections available.</div>}
                 {!loading && currentConnections && currentConnections.length > 0 && <div className="text-divider">Viewing All Available Connections</div> }
-                {!loading && currentConnections && currentConnections.length > 0 && currentConnections.map((user) =>
+                {!loading && currentConnections && currentConnections.length > 0 && 
+                <div className="request-connections">
+                    {currentConnections.map((user) =>
                     <AvailableConnection key={user._id} user={user} isRequested={isRequested} cancelConnectionRequest={cancelConnectionRequest} sendConnectionRequest={sendConnectionRequest} />
                 )}
+                </div> 
+                }
                 {!loading && currentConnections && currentConnections.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={filteredConnections.length} paginate={paginate} currentPage={currentPage} feedPosts={filteredConnections} />}
             </div>
         </>
