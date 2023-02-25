@@ -40,7 +40,9 @@
 
 .navbar-profile img {
     height: 55px;
+    width: 55px;
     border-radius: 8px;
+    object-fit: cover;
 }
 
 #main-logo {
@@ -248,6 +250,12 @@
     display: flex;
     align-items: flex-end;
     gap: 15px;
+}
+
+.post-top .profile-picture {
+    height: 75px;
+    width: 75px;
+    object-fit: cover;
 }
 
 .post-stats {
