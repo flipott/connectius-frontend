@@ -355,3 +355,34 @@
     background: #ac5353 !important;
 }
 
+.delete-modal {
+    background: #FF7878;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+    border-radius: 8px;
+    justify-content: space-between;
+    height: 20px;
+    align-self: flex-start;
+}
+
+.delete-modal > form {
+    flex-direction: row;
+    background: none;
+    box-shadow: none;
+}
+
+.delete-modal > form > button {
+    font-size: 1rem;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+.trash-icon {
+    display: flex;
+    justify-content: right;
+    height: 20px;
+    margin-left: auto;
+    margin-bottom: auto;
+}
