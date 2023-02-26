@@ -33,13 +33,19 @@ export default function Navbar(props) {
                 <li>
                     <div>
                         <img src="/images/user-dark.svg" />
-                        <Link to="/profile">Your Profile</Link>
+                        <Link to="/profile">Profile</Link>
                     </div>
                 </li>
                 <li>
                     <div>
                         <img src="/images/user-dark.svg" />
-                        <Link to="/connections">Your Connections</Link>
+                        <Link to="/connections">Connections</Link>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <img src="/images/bell.svg" />
+                        <Link to="/requests">Requests</Link>
                     </div>
                 </li>
                 <li>
