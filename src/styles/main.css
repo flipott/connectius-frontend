@@ -15,7 +15,7 @@
 .navbar-profile {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 25px;
 }
 
 .navbar > div > a {
@@ -186,7 +186,6 @@
 .sidebar-profile {
     display: flex;
     align-items: center;
-    /* justify-content: space-evenly ; */
     justify-content: center;
     gap: 12px;
     width: 100%;
