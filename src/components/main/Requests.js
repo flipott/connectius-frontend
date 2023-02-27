@@ -90,7 +90,9 @@ export default function Requests(props) {
                 {loading && <div className="loading-icon"></div>}
                 {!loading && currentRequests && currentRequests.length === 0 && <div>You do not have any requests.</div>}
                 {!loading && currentRequests && currentRequests.length > 0 && <div className="text-divider">Viewing Your Requests</div>}
-                {!loading && currentRequests && currentRequests.length > 0 && currentRequests.map((request) => <RequestConnection key={request._id} request={request} acceptConnection={acceptConnection} declineConnection={declineConnection} /> )}
+                <div className="request-connections">
+                    {!loading && currentRequests && currentRequests.length > 0 && currentRequests.map((request) => <RequestConnection key={request._id} request={request} acceptConnection={acceptConnection} declineConnection={declineConnection} /> )}
+                </div>
                 {!loading && currentRequests && currentRequests.length > 0 && <Pagination postsPerPage={postsPerPage} totalPosts={requests.length} paginate={paginate} currentPage={currentPage} feedPosts={requests} />}
             </div>
         </>

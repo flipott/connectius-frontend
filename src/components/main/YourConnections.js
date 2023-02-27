@@ -68,7 +68,7 @@ export default function YourConnections(props) {
             <div className="main-top">Your Connections</div>
             <div className="posts-container">
                 {loading && <div className="loading-icon"></div>}
-                {!loading && currentConnections && currentConnections.length === 0 && <div>You are currently not connected with anyone. <Link to="/find-connections">Find Connections here!</Link></div>}
+                {!loading && currentConnections && currentConnections.length === 0 && <div>You are currently not connected with anyone. <Link className="profile-link" to="/find-connections">Find Connections here!</Link></div>}
                 {!loading && currentConnections && currentConnections.length > 0 && <div className="text-divider">Viewing Your Connections</div> }
                 {!loading && currentConnections && currentConnections.length > 0 && 
                 <div className="request-connections">
