@@ -98,23 +98,44 @@
 .rightbar {
     background: white;
     width: 250px;
-    height: 100%;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     font-family: Lato, sans-serif;
     align-items: center;
-    justify-content: space-around;
+    position: sticky;
+    position: -webkit-sticky; 
+    top: 0;
+
 }
 
+
+
+
 .ad {
-    height: 350px;
     width: 175px;
-    border: 1px solid black;
+    background: #F99D47;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
+    text-align: center;
     font-weight: bold;
+    margin-top: 50px;
+    padding: 12px;
+    gap: 25px;
+}
+
+.ad > div {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.ad p:last-of-type {
+    font-size: 0.8rem;
+    font-weight: normal;
 }
 
 
