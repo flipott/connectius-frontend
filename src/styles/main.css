@@ -162,6 +162,22 @@
     color: #464646;
 }
 
+.not-connected {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+
+.profile-link {
+    color: black;
+    font-weight: bold;
+}
+
 .sidebar li div {
 
     display: flex;
