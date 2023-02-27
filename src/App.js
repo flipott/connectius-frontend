@@ -27,32 +27,40 @@ function App() {
   const [profilePicture, setProfilePicture] = React.useState();
 
   const checkLoginStatus = async () => {
-    const response = await fetch("http://localhost:4001/auth", {
+    try {
+      const response = await fetch("http://localhost:4001/auth", {
         headers: {
             "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
-    }); 
-    const json = await response.json();
-    if (json["result"] === "true") {
-        setLoggedIn(true);
-        getLoginItems();
+      }); 
+      const json = await response.json();
+      if (json["result"] === "true") {
+          setLoggedIn(true);
+          await getLoginItems();
 
-    } else {
-        setLoggedIn(false);
+      } else {
+          setLoggedIn(false);
+      }
+    } catch(error) {
+      console.error(error);
     }
   };
 
   const getLoginItems = async () => {
-    const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}`, {
-      method: "GET",
-      headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-      },
-    });
-    const json = await response.json();
-    setName({ "firstName": json[0].firstName, "lastName": json[0].lastName });
-    setProfilePicture(json[0].profilePicture);
+    try {
+      const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+        },
+      });
+      const json = await response.json();
+      setName({ "firstName": json[0].firstName, "lastName": json[0].lastName });
+      setProfilePicture(json[0].profilePicture);
+    } catch(error) {
+      console.error(error);
+    }
   }
 
   React.useEffect(() => {
