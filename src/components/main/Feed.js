@@ -128,7 +128,7 @@ export default function Feed(props) {
             <div className="main-top">Welcome back!</div>
             <div className="posts-container">
                 {loading && <div className="loading-icon"></div>}
-                {!loading && currentPosts && currentPosts.length === 0 && <div>There are no posts in your feed. Create a <Link to="/profile">new post</Link> or <Link to="/find-connections">find connections!</Link></div>}
+                {!loading && currentPosts && currentPosts.length === 0 && <div>There are no posts in your feed. Create a <Link to="/profile" className="profile-link">new post</Link> or <Link to="/find-connections" className="profile-link">find connections!</Link></div>}
                 {(!loading && currentPosts && currentPosts.length > 0) && <div className="text-divider">Viewing Your Feed</div> }
                 {!loading && currentPosts && currentPosts.length > 0 && currentPosts.map((post) => 
                     <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={handlePostDelete} />
