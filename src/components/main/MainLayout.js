@@ -40,7 +40,7 @@ export default function MainLayout(props) {
                     {props.component}
                 </div>
                 <div className="main-rightbar">
-                    <Rightbar firstName={name.firstName} lastName={name.lastName} />
+                    <Rightbar />
                 </div>
             </div>
         </div>
