@@ -7,9 +7,9 @@ export default function Rightbar(props) {
             <div className="ad">
                 <p>Get in touch with the creator of Connectius.</p>
                 <div>
-                    <a href="#"><img src="images/linkedin.svg" /></a>
-                    <a href="#"><img src="images/github.svg" /></a>
-                    <a href="#"><img src="images/email.svg" /></a>
+                    <a href="#"><img src="/images/linkedin.svg" /></a>
+                    <a href="#"><img src="/images/github.svg" /></a>
+                    <a href="#"><img src="/images/email.svg" /></a>
                 </div>
                 <p>Copyright © 2023 Phillip Ott</p>
             </div>
