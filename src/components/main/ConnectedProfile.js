@@ -18,6 +18,7 @@ export default function ConnectedProfile(props) {
     const [userLikes, setUserLikes] = React.useState();
     const [userPosts, setUserPosts] = React.useState();
     const [userRequests, setUserRequests] = React.useState();
+    const [loading, setLoading] = React.useState(true);
 
     const [currentPage, setCurrentPage] = React.useState(1);
     const [postsPerPage, setPostsPerPage] = React.useState(5);
@@ -62,6 +63,8 @@ export default function ConnectedProfile(props) {
 
     const getConnectionFeed = async (connectionId) => {
 
+        setLoading(true);
+
         const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
         method: "GET",
         headers: {
@@ -82,9 +85,12 @@ export default function ConnectedProfile(props) {
             await getConnectionPosts(connectionId);
         } else {
             setIsConnected(false);
-            getProfileName(connectionId);
+            await getProfileName(connectionId);
+            setLoading(false);
             return null;
         }
+
+        setLoading(false);
     }
 
     const likePost = async(post, e) => {
@@ -134,7 +140,9 @@ export default function ConnectedProfile(props) {
                 body: JSON.stringify({currentUser})
             });
             const data = await response.json();
-            window.location.reload();
+            // window.location.reload();
+            getConnectionFeed(connectionId)
+
         } catch(error) {
             console.log(error);
         }
@@ -153,7 +161,9 @@ export default function ConnectedProfile(props) {
                 body: JSON.stringify({currentUser})
             });
             const data = await response.json();
-            window.location.reload();
+            // window.location.reload();
+            getConnectionFeed(connectionId)
+
         } catch(error) {
             console.log(error);
         }
@@ -177,11 +187,10 @@ export default function ConnectedProfile(props) {
             <div className="main-top">Welcome back!</div>
             <div className="posts-container">
 
-                {((!feedPosts || !profileName) && isConnected) && <h2>Loading...</h2>}
-
-                {(profileName && isConnected) && <div className="text-divider">Viewing {profileName.firstName} {profileName.lastName}'s Feed</div>}
-                {(profileName && !isConnected) && 
-                    <div>
+                {loading && <div className="loading-icon"></div>}
+                {!loading && (profileName && isConnected) && <div className="text-divider">Viewing {profileName.firstName} {profileName.lastName}'s Feed</div>}
+                {!loading && (profileName && !isConnected) && 
+                    <div className="not-connected">
                         <h2>You are not currently connected with {profileName.firstName} {profileName.lastName}.</h2>
                         {userRequests && (
                         <div>
@@ -199,10 +208,10 @@ export default function ConnectedProfile(props) {
                     </div>
                 }
 
-                {(currentPosts && isConnected) && currentPosts.map((post) =>
+                {!loading && (currentPosts && isConnected) && currentPosts.map((post) =>
                     <Post key={post._id} currentPosts={post} userPosts={userPosts} userLikes={userLikes} likePost={likePost} unlikePost={unlikePost} handlePostDelete={null} />
                 )}
-                {currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
+                {!loading && currentPosts && <Pagination postsPerPage={postsPerPage} totalPosts={feedPosts.length} paginate={paginate} currentPage={currentPage} feedPosts={feedPosts} /> }
 
             </div>
         </>
