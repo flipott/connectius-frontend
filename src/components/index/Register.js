@@ -1,10 +1,10 @@
-import React from "react";
+import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Register(props) {
 
-    const [formData, setFormData] = React.useState({});
-    const [formError, setFormError] = React.useState({});
+    const [formData, setFormData] = useState({});
+    const [formError, setFormError] = useState({});
     const navigate = useNavigate();
 
     if (props.loggedIn) {

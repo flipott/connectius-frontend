@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import RequestConnection from "./RequestConnection";
 import Pagination from "../Pagination";
 
@@ -6,30 +6,36 @@ export default function Requests(props) {
 
     const currentUser = localStorage.getItem("user");
     
-    const [requests, setRequests] = React.useState();
-    const [loading, setLoading] = React.useState(true);
+    const [requests, setRequests] = useState();
+    const [loading, setLoading] = useState(true);
 
-    // Pagination states
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [postsPerPage, setPostsPerPage] = React.useState(10);
-    const [currentRequests, setCurrentRequests] = React.useState();
+    // Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentRequests, setCurrentRequests] = useState();
+    const postsPerPage = 10;
     
 
     const getRequests = async () => {
         setLoading(true);
-        const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-        },
-        });
-        const json = await response.json();
-        setRequests(json[0].requests);
-        const filteredRequests = json[0].requests;
-        const indexOfLastPost = currentPage * postsPerPage;
-        const indexOfFirstPost = indexOfLastPost - postsPerPage;
-        setCurrentRequests(filteredRequests.slice(indexOfFirstPost, indexOfLastPost));
+
+        try {
+            const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+            },
+            });
+            const json = await response.json();
+            setRequests(json[0].requests);
+            const filteredRequests = json[0].requests;
+            const indexOfLastPost = currentPage * postsPerPage;
+            const indexOfFirstPost = indexOfLastPost - postsPerPage;
+            setCurrentRequests(filteredRequests.slice(indexOfFirstPost, indexOfLastPost));
+        } catch(error) {
+            console.error(error);
+        }
+
         setLoading(false);
     }
 
@@ -72,7 +78,7 @@ export default function Requests(props) {
         }
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         getRequests();
     }, [])
 

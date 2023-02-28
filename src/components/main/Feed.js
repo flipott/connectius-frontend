@@ -1,21 +1,21 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { React, useState, useEffect } from "react";
 import Post from "../Post";
 import Pagination from "../Pagination";
+import { Link } from "react-router-dom";
 
-export default function Feed(props) {
-    const navigate = useNavigate();
+export default function Feed() {
     const currentUser = localStorage.getItem("user");
 
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = useState(true);
 
-    const [feedPosts, setFeedPosts] = React.useState();
-    const [userLikes, setUserLikes] = React.useState([]);
-    const [userPosts, setUserPosts] = React.useState();
+    const [feedPosts, setFeedPosts] = useState();
+    const [userLikes, setUserLikes] = useState([]);
+    const [userPosts, setUserPosts] = useState();
 
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [postsPerPage, setPostsPerPage] = React.useState(5);
-    const [currentPosts, setCurrentPosts] = React.useState();
+    // Pagination 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPosts, setCurrentPosts] = useState();
+    const postsPerPage = 5;
 
     const handlePostDelete = async(postId, e) => {
         e.preventDefault();
@@ -27,7 +27,7 @@ export default function Feed(props) {
                     "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
                 },
             });
-            getFeed();
+            getFeed(true);
             window.scrollTo(0, 0);
         } catch(error) {
             console.log(error);
@@ -35,18 +35,22 @@ export default function Feed(props) {
     }
 
     const getFeedPosts = async(userList) => {
-        const response = await fetch(`http://localhost:4001/post/?${userList}`, {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-              },
-        });
-        const json = await response.json();
-        setFeedPosts(json);
-        const indexOfLastPost = currentPage * postsPerPage;
-        const indexOfFirstPost = indexOfLastPost - postsPerPage;
-        setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
+        try {
+            const response = await fetch(`http://localhost:4001/post/?${userList}`, {
+                  method: "GET",
+                  headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+                  },
+            });
+            const json = await response.json();
+            setFeedPosts(json);
+            const indexOfLastPost = currentPage * postsPerPage;
+            const indexOfFirstPost = indexOfLastPost - postsPerPage;
+            setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
+        } catch(error) {
+            console.error(error);
+        }
     }
 
     const getFeed = async (withLoading) => {
@@ -54,22 +58,26 @@ export default function Feed(props) {
             setLoading(true);
         }
         
-        const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
-              method: "GET",
-              headers: {
-                  "Content-Type": "application/json",
-                  "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-              },
-        });
-        const json = await response.json();
-        const connectionList = json[0].connections;
-        const likedList = json[0].liked;
-        setUserPosts(json[0].posts);
-        setUserLikes(likedList);
-        const totalList = connectionList.map((user) => user._id)
-        totalList.push(json[0]._id);
-        const string = "userList=" + totalList.join("&userList=")
-        await getFeedPosts(string);
+        try {
+            const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+                  method: "GET",
+                  headers: {
+                      "Content-Type": "application/json",
+                      "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+                  },
+            });
+            const json = await response.json();
+            const connectionList = json[0].connections;
+            const likedList = json[0].liked;
+            setUserPosts(json[0].posts);
+            setUserLikes(likedList);
+            const totalList = connectionList.map((user) => user._id)
+            totalList.push(json[0]._id);
+            const string = "userList=" + totalList.join("&userList=")
+            await getFeedPosts(string);
+        } catch(error) {
+            console.error(error);
+        }
 
         if (withLoading) {
             setLoading(false);
@@ -111,7 +119,7 @@ export default function Feed(props) {
     }
   
 
-    React.useEffect(() => {
+    useEffect(() => {
         getFeed(true)
         window.scrollTo(0, 0)
     }, [currentPage])

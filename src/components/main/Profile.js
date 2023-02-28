@@ -1,37 +1,28 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { React, useState, useEffect } from "react";
 import Post from "../Post";
 import Pagination from "../Pagination";
 import ProfilePicture from "./ProfilePicture";
 
 export default function Profile(props) {
 
-    const [formData, setFormData] = React.useState();
-    const [loading, setLoading] = React.useState(true);
-    const [uploadedPhoto, setUploadedPhoto] = React.useState();
-    const [showPictureUpdate, setShowPictureUpdate] = React.useState(false);
+    const [formData, setFormData] = useState();
+    const [loading, setLoading] = useState(true);
+    const [showPictureUpdate, setShowPictureUpdate] = useState(false);
 
-    const navigate = useNavigate();
     const currentUser = localStorage.getItem("user");
 
     const [posts, setPosts] = React.useState();
     const [userPosts, setUserPosts] = React.useState();
     const [userLikes, setUserLikes] = React.useState();
 
+    // Pagination
     const [currentPosts, setCurrentPosts] = React.useState();
     const [currentPage, setCurrentPage] = React.useState(1);
     const postsPerPage = 5;
 
-    const likePost = async(post, e) => { 
-        return null;
-    }
-
-    const unlikePost = async(post, e) => {
-        return null;
-    }
-
     const handlePostDelete = async(postId, e) => {
         e.preventDefault();
+
         try {
             const response = await fetch(`http://localhost:4001/user/${currentUser}/post/${postId}`, {
                 method: "DELETE",
@@ -49,25 +40,31 @@ export default function Profile(props) {
 
     const getPosts = async() => {
         setLoading(true);
-        const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+
+        try {
+            const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+            }
+            });
+            const json = await response.json();
+            const likedList = json.likes;
+            setPosts(json);
+            setUserPosts(json);
+            setUserLikes(likedList);
+            const indexOfLastPost = currentPage * postsPerPage;
+            const indexOfFirstPost = indexOfLastPost - postsPerPage;
+            setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
+        } catch(error) {
+            console.error(error);
         }
-        });
-        const json = await response.json();
-        const likedList = json.likes;
-        setPosts(json);
-        setUserPosts(json);
-        setUserLikes(likedList);
-        const indexOfLastPost = currentPage * postsPerPage;
-        const indexOfFirstPost = indexOfLastPost - postsPerPage;
-        setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
+
         setLoading(false);
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         getPosts()
         window.scrollTo(0, 0)
     }, [currentPage])
@@ -75,6 +72,7 @@ export default function Profile(props) {
 
     const handlePostSubmit = async(e) => {
         e.preventDefault();
+
         try {
             const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
                 method: "POST",
@@ -102,6 +100,14 @@ export default function Profile(props) {
         const indexOfFirstPost = indexOfLastPost - postsPerPage;
         setCurrentPosts(feedPosts.slice(indexOfFirstPost, indexOfLastPost));
     }
+
+    const likePost = async(post, e) => { 
+        return null;
+    }
+
+    const unlikePost = async(post, e) => {
+        return null;
+    }
     
     const updateProfilePicture = async(e) => {
         e.preventDefault();
@@ -111,8 +117,6 @@ export default function Profile(props) {
 
         const imageData = new FormData();
         imageData.append("file", file);
-
-        console.log(imageData)
 
         try {
             const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/photo`, {

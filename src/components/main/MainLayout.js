@@ -1,6 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { React, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Rightbar from "./Rightbar";
@@ -12,7 +11,7 @@ export default function MainLayout(props) {
     const { name, profilePicture } = props;
     const navigate = useNavigate();
 
-    const check = async() => {
+    const checkStatus = async() => {
         const loggedIn = await checkLoginStatus();
         if (loggedIn) {
             return null;
@@ -22,8 +21,8 @@ export default function MainLayout(props) {
         }
     }
 
-    React.useEffect(() => {
-        check();
+    useEffect(() => {
+        checkStatus();
     }, [props.component])
 
 

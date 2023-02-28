@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import CurrentConnection from "./CurrentConnection";
 import Pagination from "../Pagination";
 import { Link } from "react-router-dom";
@@ -9,27 +9,33 @@ export default function YourConnections(props) {
     const [connections, setConnections] = React.useState();
     const [loading, setLoading] = React.useState(true);
 
-    // Pagination states
+    // Pagination
     const [currentPage, setCurrentPage] = React.useState(1);
-    const [postsPerPage, setPostsPerPage] = React.useState(10);
     const [currentConnections, setCurrentConnections] = React.useState();
+    const postsPerPage = 10;
 
 
     const getConnections = async () => {
         setLoading(true);
-        const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-          }
-        });
-        const json = await response.json();
-        setConnections(json[0].connections);
-        const filteredConnections = json[0].connections;
-        const indexOfLastPost = currentPage * postsPerPage;
-        const indexOfFirstPost = indexOfLastPost - postsPerPage;
-        setCurrentConnections(filteredConnections.slice(indexOfFirstPost, indexOfLastPost));
+
+        try {
+            const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+              }
+            });
+            const json = await response.json();
+            setConnections(json[0].connections);
+            const filteredConnections = json[0].connections;
+            const indexOfLastPost = currentPage * postsPerPage;
+            const indexOfFirstPost = indexOfLastPost - postsPerPage;
+            setCurrentConnections(filteredConnections.slice(indexOfFirstPost, indexOfLastPost));
+        } catch(error) {
+            console.error(error);
+        }
+
         setLoading(false);
     }
 
@@ -46,13 +52,14 @@ export default function YourConnections(props) {
                 body: JSON.stringify({currentUser})
             });
             const data = await response.json();
-            window.location.reload();
+            getConnections();
         } catch(error) {
             console.log(error);
         }
+
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         getConnections();
     }, [])
 

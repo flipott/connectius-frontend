@@ -1,21 +1,21 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Preferences(props) {
 
     const currentUser = localStorage.getItem("user");
 
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = useState(true);
 
-    const [nameFormData, setNameFormData] = React.useState({firstName: "", lastName: ""});
-    const [emailFormData, setEmailFormData] = React.useState({email: ""});
-    const [passwordFormData, setPasswordFormData] = React.useState({currentPassword: "", newPassword: "", confirmNewPassword: ""});
+    const [nameFormData, setNameFormData] = useState({firstName: "", lastName: ""});
+    const [emailFormData, setEmailFormData] = useState({email: ""});
+    const [passwordFormData, setPasswordFormData] = useState({currentPassword: "", newPassword: "", confirmNewPassword: ""});
     
-    const [nameFormError, setNameFormError] = React.useState({});
-    const [emailFormError, setEmailFormError] = React.useState({});
-    const [passwordFormError, setPasswordFormError] = React.useState({});
+    const [nameFormError, setNameFormError] = useState({});
+    const [emailFormError, setEmailFormError] = useState({});
+    const [passwordFormError, setPasswordFormError] = useState({});
 
-    const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     
     const navigate = useNavigate();
 
@@ -94,6 +94,7 @@ export default function Preferences(props) {
 
     const getName = async() => {
         setLoading(true);
+
         try {
             const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
                 method: "GET",
@@ -108,6 +109,7 @@ export default function Preferences(props) {
         } catch(error) {
             console.error(error);
         }
+
         setLoading(false);
     };
 
@@ -138,7 +140,7 @@ export default function Preferences(props) {
         setPasswordFormData({...passwordFormData, [e.target.name]: e.target.value});
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         getName();
     }, [])
 

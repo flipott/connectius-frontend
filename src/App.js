@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import React, { useEffect } from "react";
+import { React, useState, useEffect} from "react";
 import './styles/app.css';
 
 import IndexLayout from "./components/index/IndexLayout";
@@ -22,9 +22,9 @@ import ConnectedProfile from "./components/main/ConnectedProfile";
 function App() {
 
   
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [name, setName] = React.useState();
-  const [profilePicture, setProfilePicture] = React.useState();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [name, setName] = useState();
+  const [profilePicture, setProfilePicture] = useState();
 
   const checkLoginStatus = async () => {
     try {
@@ -63,9 +63,7 @@ function App() {
     }
   }
 
-  React.useEffect(() => {
-
-
+  useEffect(() => {
       checkLoginStatus();
   }, []);
 

@@ -1,17 +1,11 @@
-import React from "react";
+import { React, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Login(props) {
 
-    const [formData, setFormData] = React.useState({});
-    const [formError, setFormError] = React.useState({});
+    const [formData, setFormData] = useState({});
+    const [formError, setFormError] = useState({});
     const navigate = useNavigate();
-  
-    // React.useEffect(() => {
-    //     if (props.loggedIn) {
-    //         navigate("/feed", {replace: true});
-    //     }
-    // }, [props.loggedIn]);
 
     const handleLogin = async(e) => {
         e.preventDefault();

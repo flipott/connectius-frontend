@@ -1,96 +1,106 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import FindConnections from "./FindConnections";
+import { React, useState, useEffect } from "react";
 import Post from "../Post";
 import Pagination from "../Pagination";
 
-export default function ConnectedProfile(props) {
-
-    const navigate = useNavigate();
+export default function ConnectedProfile() {
     const currentUser = localStorage.getItem("user");
 
     const path = window.location.pathname;
     const connectionId = path.substring("/connections/".length);
 
-    const [isConnected, setIsConnected] = React.useState(false);
-    const [feedPosts, setFeedPosts] = React.useState();
-    const [profileName, setProfileName] = React.useState();
-    const [userLikes, setUserLikes] = React.useState();
-    const [userPosts, setUserPosts] = React.useState();
-    const [userRequests, setUserRequests] = React.useState();
-    const [loading, setLoading] = React.useState(true);
+    const [isConnected, setIsConnected] = useState(false);
+    const [feedPosts, setFeedPosts] = useState();
+    const [profileName, setProfileName] = useState();
+    const [userLikes, setUserLikes] = useState();
+    const [userPosts, setUserPosts] = useState();
+    const [userRequests, setUserRequests] = useState();
+    const [loading, setLoading] = useState(true);
 
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [postsPerPage, setPostsPerPage] = React.useState(5);
-    const [currentPosts, setCurrentPosts] = React.useState();
+    // Pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPosts, setCurrentPosts] = useState();
+    const postsPerPage = 5;
 
 
     const isRequested = (userRequests, connectedProfileId) => {
         return userRequests.some(item => item._id === connectedProfileId) ? true : false;
     }
     const getProfileName = async(connectionId) => {
-        const response = await fetch(`http://localhost:4001/user/${connectionId}/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+        try {
+            const response = await fetch(`http://localhost:4001/user/${connectionId}/`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+                }
+            });
+            const json = await response.json();
+            if (json[0].firstName && json[0].lastName) {
+                setProfileName({"firstName": json[0].firstName, "lastName": json[0].lastName});
+                setUserRequests(json[0].requests);
+            } else {
+                return null;
             }
-        });
-        const json = await response.json();
-        if (json[0].firstName && json[0].lastName) {
-            setProfileName({"firstName": json[0].firstName, "lastName": json[0].lastName});
-            setUserRequests(json[0].requests);
-        } else {
-            return null;
+        } catch(error) {
+            console.error(error);
         }
     }
 
     const getConnectionPosts = async(connectionId) => {
-        const response = await fetch(`http://localhost:4001/user/${connectionId}/post`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-            },
-        });
-        const json = await response.json();
-        setFeedPosts(json);
-        const indexOfLastPost = currentPage * postsPerPage;
-        const indexOfFirstPost = indexOfLastPost - postsPerPage;
-        setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
-        await getProfileName(connectionId);
+        try {
+            const response = await fetch(`http://localhost:4001/user/${connectionId}/post`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+                },
+            });
+            const json = await response.json();
+            setFeedPosts(json);
+            const indexOfLastPost = currentPage * postsPerPage;
+            const indexOfFirstPost = indexOfLastPost - postsPerPage;
+            setCurrentPosts(json.slice(indexOfFirstPost, indexOfLastPost));
+            await getProfileName(connectionId);
+        } catch(error) {
+            console.error(error);
+        }
     }
 
-    const getConnectionFeed = async (connectionId) => {
-
-        setLoading(true);
-
-        const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-        },
-        });
-        const json = await response.json();
-        const connectionList = json[0].connections;
-        const likedList = json[0].liked;
-        const userPosts = json[0].posts;
-        setUserPosts(userPosts);
-        setUserLikes(likedList);
-
-        // Verify users are connected
-        if (connectionList.some(item => item._id === connectionId)) {
-            setIsConnected(true);
-            await getConnectionPosts(connectionId);
-        } else {
-            setIsConnected(false);
-            await getProfileName(connectionId);
-            setLoading(false);
-            return null;
+    const getConnectionFeed = async (connectionId, withLoading) => {
+        if (withLoading) {
+            setLoading(true);
         }
-
-        setLoading(false);
+        try {
+            const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+            },
+            });
+            const json = await response.json();
+            const connectionList = json[0].connections;
+            const likedList = json[0].liked;
+            const userPosts = json[0].posts;
+            setUserPosts(userPosts);
+            setUserLikes(likedList);
+    
+            // Verify users are connected
+            if (connectionList.some(item => item._id === connectionId)) {
+                setIsConnected(true);
+                await getConnectionPosts(connectionId);
+            } else {
+                setIsConnected(false);
+                await getProfileName(connectionId);
+                setLoading(false);
+                return null;
+            }
+        } catch(error) {
+            console.error(error);
+        }
+        if (withLoading) {
+            setLoading(false);
+        }
     }
 
     const likePost = async(post, e) => {
@@ -104,7 +114,7 @@ export default function ConnectedProfile(props) {
                 },
                 body: JSON.stringify({currentUser})
             });
-            getConnectionFeed(connectionId);
+            getConnectionFeed(connectionId, false);
         } catch(error) {
             console.log(error);
         }    
@@ -121,7 +131,7 @@ export default function ConnectedProfile(props) {
                 },
                 body: JSON.stringify({currentUser})
             });
-            getConnectionFeed(connectionId);
+            getConnectionFeed(connectionId, false);
         } catch(error) {
             console.log(error);
         }    
@@ -140,9 +150,7 @@ export default function ConnectedProfile(props) {
                 body: JSON.stringify({currentUser})
             });
             const data = await response.json();
-            // window.location.reload();
-            getConnectionFeed(connectionId)
-
+            getConnectionFeed(connectionId, false)
         } catch(error) {
             console.log(error);
         }
@@ -161,8 +169,7 @@ export default function ConnectedProfile(props) {
                 body: JSON.stringify({currentUser})
             });
             const data = await response.json();
-            // window.location.reload();
-            getConnectionFeed(connectionId)
+            getConnectionFeed(connectionId, false)
 
         } catch(error) {
             console.log(error);
@@ -170,8 +177,8 @@ export default function ConnectedProfile(props) {
     }
   
 
-    React.useEffect(() => {
-        getConnectionFeed(connectionId)
+    useEffect(() => {
+        getConnectionFeed(connectionId, true)
         window.scrollTo(0, 0)
     }, [currentPage])
 

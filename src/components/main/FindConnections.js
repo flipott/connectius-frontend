@@ -1,40 +1,43 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { React, useState, useEffect } from "react";
 import AvailableConnection from "./AvailableConnection";
 import Pagination from "../Pagination";
 
 export default function FindConnections(props) {
 
-    const [filteredConnections, setFilteredConnections] = React.useState();
+    const [filteredConnections, setFilteredConnections] = useState();
 
     const currentUser = localStorage.getItem("user");
-    const [requestData, setRequestData] = React.useState();
-    const [loading, setLoading] = React.useState(true);
+    const [requestData, setRequestData] = useState();
+    const [loading, setLoading] = useState(true);
 
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [postsPerPage, setPostsPerPage] = React.useState(10);
-    const [currentConnections, setCurrentConnections] = React.useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentConnections, setCurrentConnections] = useState();
+    const postsPerPage = 10;
 
     const getAllUsers = async () => {
         setLoading(true);
-        const response = await fetch(`http://localhost:4001/user/`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
-            },
-        });
-        const json = await response.json();
-        const filteredUsers = json.filter(user => user._id !== currentUser);
-        const filteredConnectionsTest = filteredUsers.filter(user => isConnected(user) === false)
-        setFilteredConnections(filteredUsers.filter(user => isConnected(user) === false));
-        const indexOfLastPost = currentPage * postsPerPage;
-        const indexOfFirstPost = indexOfLastPost - postsPerPage;
-        setCurrentConnections(filteredConnectionsTest.slice(indexOfFirstPost, indexOfLastPost));
+
+        try {
+            const response = await fetch(`http://localhost:4001/user/`, {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${window.localStorage.getItem("token")}`,
+                },
+            });
+            const json = await response.json();
+            const filteredUsers = json.filter(user => user._id !== currentUser);
+            const filteredConnectionsTest = filteredUsers.filter(user => isConnected(user) === false)
+            setFilteredConnections(filteredUsers.filter(user => isConnected(user) === false));
+            const indexOfLastPost = currentPage * postsPerPage;
+            const indexOfFirstPost = indexOfLastPost - postsPerPage;
+            setCurrentConnections(filteredConnectionsTest.slice(indexOfFirstPost, indexOfLastPost));
+        } catch(error) {
+            console.error(error);
+        }
+
         setLoading(false);
     }
-
-
 
     const isConnected = (user) => {
         const connectedArray = user.connections;
@@ -46,15 +49,10 @@ export default function FindConnections(props) {
         return requestsArray.includes(currentUser) ? true : false;
     }
 
-
-
-    React.useEffect(() => {
+    useEffect(() => {
         getAllUsers();
         window.scrollTo(0, 0)
     }, [requestData, currentPage])
-
-
-
 
     const sendConnectionRequest = async(recipient, e) => {
         e.preventDefault()

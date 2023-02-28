@@ -297,7 +297,6 @@
 
 }
 
-
 .post-body {
     font-size: 1.4rem;
     word-break: break-word;
@@ -316,8 +315,6 @@
     overflow: auto;
 
 }
-
-
 
 .post-top {
     display: flex;
@@ -568,7 +565,6 @@
 .user-card button {
     font-size: 1rem;
 }
-
 
 .user-card-top a {
     text-decoration: none;

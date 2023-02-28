@@ -5,14 +5,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function IndexLayout(props) {
+
     const navigate = useNavigate();
-
-    React.useEffect(() => {
-        if (props.loggedIn) {
-            navigate("/feed", {replace: true});
-        }
-    }, [props.loggedIn]);
-
 
     const animatedText = [
         `<p class="animated-text">Socializing made <span class="animated-orange">simple.</span></p>`,
@@ -20,8 +14,14 @@ export default function IndexLayout(props) {
         `<p class="animated-text"><span class="animated-orange">Share</span> your thoughts.</p>`,
     ]
 
-    const [text, setText] = React.useState(animatedText[0]);
-    const [textIndex, setTextIndex] = React.useState(1)
+    const [text, setText] = useState(animatedText[0]);
+    const [textIndex, setTextIndex] = useState(1)
+
+    useEffect(() => {
+        if (props.loggedIn) {
+            navigate("/feed", {replace: true});
+        }
+    }, [props.loggedIn]);
 
     useEffect(() => {
         const interval = setInterval(() => {
