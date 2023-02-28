@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 export default function YourConnections(props) {
 
     const currentUser = localStorage.getItem("user");
-    const [connections, setConnections] = React.useState();
-    const [loading, setLoading] = React.useState(true);
+    const [connections, setConnections] = useState();
+    const [loading, setLoading] = useState(true);
 
     // Pagination
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [currentConnections, setCurrentConnections] = React.useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [currentConnections, setCurrentConnections] = useState();
     const postsPerPage = 10;
 
 

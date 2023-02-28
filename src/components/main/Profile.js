@@ -11,13 +11,13 @@ export default function Profile(props) {
 
     const currentUser = localStorage.getItem("user");
 
-    const [posts, setPosts] = React.useState();
-    const [userPosts, setUserPosts] = React.useState();
-    const [userLikes, setUserLikes] = React.useState();
+    const [posts, setPosts] = useState();
+    const [userPosts, setUserPosts] = useState();
+    const [userLikes, setUserLikes] = useState();
 
     // Pagination
-    const [currentPosts, setCurrentPosts] = React.useState();
-    const [currentPage, setCurrentPage] = React.useState(1);
+    const [currentPosts, setCurrentPosts] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
     const postsPerPage = 5;
 
     const handlePostDelete = async(postId, e) => {
