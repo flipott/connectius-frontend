@@ -61,7 +61,7 @@ export default function YourConnections(props) {
 
     useEffect(() => {
         getConnections();
-    }, [])
+    }, [currentPage])
 
     const paginate = (pageNumber, currentPage, postsPerPage, feedPosts) => {
         setCurrentPage(pageNumber);

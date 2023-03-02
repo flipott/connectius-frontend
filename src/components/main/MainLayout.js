@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
@@ -10,6 +10,7 @@ export default function MainLayout(props) {
 
     const { name, profilePicture } = props;
     const navigate = useNavigate();
+    const [showMobileMenu, setShowMobileMenu] = useState(false);
 
     const checkStatus = async() => {
         const loggedIn = await checkLoginStatus();
@@ -29,7 +30,7 @@ export default function MainLayout(props) {
     return name === undefined ? null :  (
         <div className="page-wrap">
             <div className="navbar-wrap">
-                <Navbar firstName={name.firstName} profilePicture={<ProfilePicture image={profilePicture} />} />
+                <Navbar showMobileMenu={showMobileMenu} setShowMobileMenu={setShowMobileMenu} firstName={name.firstName} profilePicture={<ProfilePicture image={profilePicture} />} />
             </div>
             <div className="main-wrap">
                 <div className="main-sidebar">

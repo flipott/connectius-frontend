@@ -55,12 +55,12 @@ export default function Post({currentPosts, userPosts, userLikes, likePost, unli
                     {
                         userLikes.includes(post._id) ?
                         <button onClick={(e) => unlikePost(post, e) }>
-                            <img src="/images/like-light.svg" />
+                            <img src="/images/icons-light/like-light.svg" />
                         <p>Unlike</p>
                         </button>
                         :
                         <button onClick={(e) => likePost(post, e) }>
-                            <img src="/images/like-light.svg" />
+                            <img src="/images/icons-light/like-light.svg" />
                         <p>Like</p>
                         </button>                            
                     }

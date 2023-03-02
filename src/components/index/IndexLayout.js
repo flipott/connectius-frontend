@@ -40,7 +40,7 @@ export default function IndexLayout(props) {
             <div className="index-wrap">
                 <div className="index-main">
                     <div className="hero-left">
-                        <Link to="/"><img src="/images/logo-light.svg" /></Link>
+                        <Link to="/"><img src="/images/icons-light/logo-light.svg" /></Link>
                         <div dangerouslySetInnerHTML={{ __html: text }} />
                     </div>
                     {props.component}

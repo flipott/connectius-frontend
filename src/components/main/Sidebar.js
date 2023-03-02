@@ -26,31 +26,31 @@ export default function Navbar(props) {
             <ul>
                 <li>
                     <div>
-                        <img src="/images/newspaper-dark.svg" />
+                        <img src="/images/icons-dark/newspaper-dark.svg" />
                         <Link to="/feed">Current Feed</Link>
                     </div>
                 </li>
                 <li>
                     <div>
-                        <img src="/images/user-dark.svg" />
+                        <img src="/images/icons-dark/user-dark.svg" />
                         <Link to="/profile">Profile</Link>
                     </div>
                 </li>
                 <li>
                     <div>
-                        <img src="/images/user-dark.svg" />
+                        <img src="/images/icons-dark/connections-dark.svg" />
                         <Link to="/connections">Connections</Link>
                     </div>
                 </li>
                 <li>
                     <div>
-                        <img src="/images/bell.svg" />
+                        <img src="/images/icons-dark/bell-dark.svg" />
                         <Link to="/requests">Requests</Link>
                     </div>
                 </li>
                 <li>
                     <div>
-                        <img src="/images/like-dark.svg" />
+                        <img src="/images/icons-dark/like-dark.svg" />
                         <Link to="/liked">Liked Posts</Link>
                     </div>
                 </li>
@@ -58,13 +58,13 @@ export default function Navbar(props) {
             <ul>
                 <li>
                         <div>
-                            <img src="/images/cogs-dark.svg" />
+                            <img src="/images/icons-dark/cogs-dark.svg" />
                             <Link to="/preferences">Preferences</Link>
                         </div>
                     </li>
                     <li>
                         <div>
-                            <img src="/images/door-dark.svg" />
+                            <img src="/images/icons-dark/door-dark.svg" />
                             <a href="#" onClick={logOut}>Log Out</a>
                         </div>
                     </li>
