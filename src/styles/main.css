@@ -4,12 +4,15 @@
     justify-content: space-between;
     align-items: center;
     font-family: Lato, sans-serif;
+    white-space: nowrap;
 }
 
-.navbar > div {
+.navbar-links {
     display: flex;
     align-items: center;
-    gap: 75px;
+    justify-content: space-between;
+    width: 400px;
+    gap: 10px;
 }
 
 .navbar-profile {
@@ -78,6 +81,11 @@
 .navbar-wrap {
     width: 100%;
     background: #F99D47;
+    position: sticky;
+    position: -webkit-sticky; 
+    z-index: 5000;
+    top: 0;
+
 }
 
 
@@ -86,13 +94,13 @@
     width: 250px;
     display: flex;
     flex-direction: column;
-    padding: 25px 0;
+    padding: 50px 0;
     height: 100%;
     max-height: 500px;
     font-family: Lato, sans-serif;
     position: sticky;
     position: -webkit-sticky; 
-    top: 0;
+    top: 25px;
 }
 
 .rightbar {
@@ -105,8 +113,7 @@
     align-items: center;
     position: sticky;
     position: -webkit-sticky; 
-    top: 0;
-
+    top: 25px;
 }
 
 
@@ -131,6 +138,10 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
+}
+
+.ad > div > a > img {
+    height: 50px;
 }
 
 .ad p:last-of-type {
@@ -196,8 +207,9 @@
     text-decoration: underline;
 }
 
-.sidebar ul img {
+.sidebar ul li div img {
     height: 25px;
+    width: 25px;
 }
 
 .loading-icon {
@@ -278,7 +290,7 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    max-width: 650pxx;
+    max-width: 650px;
 }
 
 .post,
@@ -532,6 +544,7 @@
 .page-link.selected,
 .page-link.selected:hover  {
     user-select: none;
+
     background: #F99D47;
     color: white;
     cursor: default;
@@ -583,4 +596,8 @@
 .request-buttons {
     display: flex;
     gap: 12px;
+}
+
+.navbar-mobile {
+    display: none;
 }
