@@ -28,7 +28,7 @@ function App() {
 
   const checkLoginStatus = async () => {
     try {
-      const response = await fetch("http://localhost:4001/auth", {
+      const response = await fetch("https://connectius-backend.onrender.com/auth", {
         headers: {
             "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
@@ -48,7 +48,7 @@ function App() {
 
   const getLoginItems = async () => {
     try {
-      const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}`, {
+      const response = await fetch(`https://connectius-backend.onrender.com/user/${localStorage.getItem("user")}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

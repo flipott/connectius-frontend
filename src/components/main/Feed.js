@@ -20,7 +20,7 @@ export default function Feed() {
     const handlePostDelete = async(postId, e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}/post/${postId}`, {
+            const response = await fetch(`https://connectius-backend.onrender.com/user/${currentUser}/post/${postId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default function Feed() {
 
     const getFeedPosts = async(userList) => {
         try {
-            const response = await fetch(`http://localhost:4001/post/?${userList}`, {
+            const response = await fetch(`https://connectius-backend.onrender.com/post/?${userList}`, {
                   method: "GET",
                   headers: {
                       "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export default function Feed() {
         }
         
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+            const response = await fetch(`https://connectius-backend.onrender.com/user/${currentUser}`, {
                   method: "GET",
                   headers: {
                       "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default function Feed() {
     const likePost = async(post, e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:4001/user/${post.user}/post/${post._id}/like`, {
+            const response = await fetch(`https://connectius-backend.onrender.com/user/${post.user}/post/${post._id}/like`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -104,7 +104,7 @@ export default function Feed() {
     const unlikePost = async(post, e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:4001/user/${post.user}/post/${post._id}/like`, {
+            const response = await fetch(`https://connectius-backend.onrender.com/${post.user}/post/${post._id}/like`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
