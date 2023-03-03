@@ -27,7 +27,7 @@ export default function ConnectedProfile() {
     }
     const getProfileName = async(connectionId) => {
         try {
-            const response = await fetch(`http://localhost:4001/user/${connectionId}/`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${connectionId}/`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export default function ConnectedProfile() {
 
     const getConnectionPosts = async(connectionId) => {
         try {
-            const response = await fetch(`http://localhost:4001/user/${connectionId}/post`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${connectionId}/post`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export default function ConnectedProfile() {
             setLoading(true);
         }
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${currentUser}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -106,7 +106,7 @@ export default function ConnectedProfile() {
     const likePost = async(post, e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:4001/user/${post.user}/post/${post._id}/like`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${post.user}/post/${post._id}/like`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -123,7 +123,7 @@ export default function ConnectedProfile() {
     const unlikePost = async(post, e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:4001/user/${post.user}/post/${post._id}/like`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${post.user}/post/${post._id}/like`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -141,7 +141,7 @@ export default function ConnectedProfile() {
         e.preventDefault()
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${recipient}/request`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${recipient}/request`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -160,7 +160,7 @@ export default function ConnectedProfile() {
         e.preventDefault()
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${recipient}/request`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${recipient}/request`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

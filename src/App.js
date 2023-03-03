@@ -28,7 +28,7 @@ function App() {
 
   const checkLoginStatus = async () => {
     try {
-      const response = await fetch("https://connectius-backend.onrender.com/auth", {
+      const response = await fetch("https://connectius-api-moiqj.ondigitalocean.app/auth", {
         headers: {
             "Authorization": `Bearer ${window.localStorage.getItem("token")}`
         }
@@ -48,7 +48,7 @@ function App() {
 
   const getLoginItems = async () => {
     try {
-      const response = await fetch(`https://connectius-backend.onrender.com/user/${localStorage.getItem("user")}`, {
+      const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${localStorage.getItem("user")}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -68,7 +68,7 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
         <Route exact path="/" element={<IndexLayout loggedIn={loggedIn} component={<Login loggedIn={loggedIn} />} />} />
         <Route path="/register" element={<IndexLayout loggedIn={loggedIn} component={<Register loggedIn={loggedIn} />} />} />

@@ -15,7 +15,7 @@ export default function Register(props) {
         e.preventDefault();
 
         try {
-            const response = await fetch('https://connectius-backend.onrender.com/register', {
+            const response = await fetch('https://connectius-api-moiqj.ondigitalocean.app/register', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

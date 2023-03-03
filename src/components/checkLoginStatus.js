@@ -1,6 +1,6 @@
 const checkLoginStatus = async () => {
     try {
-        const response = await fetch("https://connectius-backend.onrender.com/auth", {
+        const response = await fetch("https://connectius-api-moiqj.ondigitalocean.app/auth", {
             headers: {
                 "Authorization": `Bearer ${window.localStorage.getItem("token")}`
             }

@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/connectius-frontend/static/css/main.f1deae48.css",
+    "main.js": "/connectius-frontend/static/js/main.6fce280e.js",
+    "index.html": "/connectius-frontend/index.html",
+    "main.f1deae48.css.map": "/connectius-frontend/static/css/main.f1deae48.css.map",
+    "main.6fce280e.js.map": "/connectius-frontend/static/js/main.6fce280e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f1deae48.css",
+    "static/js/main.6fce280e.js"
+  ]
+}

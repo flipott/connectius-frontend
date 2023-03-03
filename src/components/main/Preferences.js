@@ -23,7 +23,7 @@ export default function Preferences(props) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}/name`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${currentUser}/name`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export default function Preferences(props) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}/email`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${currentUser}/email`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export default function Preferences(props) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}/password`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${currentUser}/password`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -96,7 +96,7 @@ export default function Preferences(props) {
         setLoading(true);
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${currentUser}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export default function Preferences(props) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}/`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${currentUser}/`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

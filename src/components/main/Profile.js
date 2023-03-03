@@ -24,7 +24,7 @@ export default function Profile(props) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${currentUser}/post/${postId}`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${currentUser}/post/${postId}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export default function Profile(props) {
         setLoading(true);
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${localStorage.getItem("user")}/post`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -74,7 +74,7 @@ export default function Profile(props) {
         e.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/post`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${localStorage.getItem("user")}/post`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -119,7 +119,7 @@ export default function Profile(props) {
         imageData.append("file", file);
 
         try {
-            const response = await fetch(`http://localhost:4001/user/${localStorage.getItem("user")}/photo`, {
+            const response = await fetch(`https://connectius-api-moiqj.ondigitalocean.app/user/${localStorage.getItem("user")}/photo`, {
                 method: "POST",
                 body: imageData
             });

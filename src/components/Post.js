@@ -35,7 +35,7 @@ export default function Post({currentPosts, userPosts, userLikes, likePost, unli
                     </div>
                     { currentUser === post.user._id && 
                 <>
-                <a href="#" className="trash-icon" onClick={(e) => {e.preventDefault(); setShowDeleteModal(true);}} style={{display: !showDeleteModal ? 'flex' : 'none'}}><img src="/images/trash.svg" /></a>
+                <a href="#" className="trash-icon" onClick={(e) => {e.preventDefault(); setShowDeleteModal(true);}} style={{display: !showDeleteModal ? 'flex' : 'none'}}><img src={process.env.PUBLIC_URL + "/images/trash.svg"} /></a>
                 </>
             }
             </div>
@@ -55,12 +55,12 @@ export default function Post({currentPosts, userPosts, userLikes, likePost, unli
                     {
                         userLikes.includes(post._id) ?
                         <button onClick={(e) => unlikePost(post, e) }>
-                            <img src="/images/icons-light/like-light.svg" />
+                            <img src={process.env.PUBLIC_URL + "/images/icons-light/like-light.svg"} />
                         <p>Unlike</p>
                         </button>
                         :
                         <button onClick={(e) => likePost(post, e) }>
-                            <img src="/images/icons-light/like-light.svg" />
+                            <img src={process.env.PUBLIC_URL + "/images/icons-light/like-light.svg"} />
                         <p>Like</p>
                         </button>                            
                     }
