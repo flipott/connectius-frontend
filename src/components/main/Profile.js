@@ -148,7 +148,7 @@ export default function Profile(props) {
                 {!loading && 
                     <div className="picture-update">
                         {props.profilePicture && <ProfilePicture image={props.profilePicture} />}
-                        <a href="#" onClick={() => setShowPictureUpdate(true)} style={{display: showPictureUpdate ? 'none' : 'flex'}}>Update Profile Picture</a>
+                        <button id="update-pic" onClick={() => setShowPictureUpdate(true)} style={{display: showPictureUpdate ? 'none' : 'flex'}}>Update Profile Picture</button>
                         <form style={{display: showPictureUpdate ? 'flex' : 'none'}} onSubmit={updateProfilePicture}>
                             <p>Photo must be 1mb or less.</p>
                             <input type="file" id="file" name="file" accept="image/*" onChange={(e) => checkFileSize(e)} required />

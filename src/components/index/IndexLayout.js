@@ -3,6 +3,7 @@ import IndexFooter from "./IndexFooter";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import checkLoginStatus from "../checkLoginStatus";
 
 export default function IndexLayout(props) {
 
@@ -17,11 +18,18 @@ export default function IndexLayout(props) {
     const [text, setText] = useState(animatedText[0]);
     const [textIndex, setTextIndex] = useState(1)
 
-    useEffect(() => {
-        if (props.loggedIn) {
-            navigate("/feed", {replace: true});
+    const checkStatus = async() => {
+        const loggedIn = await checkLoginStatus();
+        if (loggedIn) {
+            navigate("/feed");
+        } else {
+            return null;
         }
-    }, [props.loggedIn]);
+    }
+
+    useEffect(() => {
+        checkStatus();
+    }, [props.component])
 
     useEffect(() => {
         const interval = setInterval(() => {

@@ -51,14 +51,12 @@ export default function Login(props) {
             });
             const data = await response.json();
             if (data.errors) {
-                console.log(data.errors[0])
                 setFormError(data.errors[0].msg);
             }
             if (!data.errors) {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('user', data.user)
                 navigate("/feed");
-                window.location.reload();
             }
         } catch(error) {
             console.error(error);
@@ -82,7 +80,7 @@ export default function Login(props) {
             <span className="border-line" />
             <p>Don't have an account?</p>
             <Link to="register"><button type="button">Register</button></Link>
-            <a href="#" onClick={testLogin}><button className="test-account" type="button">Try Demo Account</button></a>
+            <button onClick={testLogin} className="test-account" type="button">Try Demo Account</button>
         </form>
     )
 }

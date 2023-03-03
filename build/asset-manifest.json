@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/connectius-frontend/static/css/main.1dad3bdd.css",
-    "main.js": "/connectius-frontend/static/js/main.3efd9d8d.js",
+    "main.js": "/connectius-frontend/static/js/main.f6f72b81.js",
     "index.html": "/connectius-frontend/index.html",
     "main.1dad3bdd.css.map": "/connectius-frontend/static/css/main.1dad3bdd.css.map",
-    "main.3efd9d8d.js.map": "/connectius-frontend/static/js/main.3efd9d8d.js.map"
+    "main.f6f72b81.js.map": "/connectius-frontend/static/js/main.f6f72b81.js.map"
   },
   "entrypoints": [
     "static/css/main.1dad3bdd.css",
-    "static/js/main.3efd9d8d.js"
+    "static/js/main.f6f72b81.js"
   ]
 }
