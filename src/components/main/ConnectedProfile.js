@@ -5,8 +5,8 @@ import Pagination from "../Pagination";
 export default function ConnectedProfile() {
     const currentUser = localStorage.getItem("user");
 
-    const path = window.location.pathname;
-    const connectionId = path.substring("/connections/".length);
+    const hash = window.location.hash;
+    const connectionId = hash.substring("#/connections/".length);
 
     const [isConnected, setIsConnected] = useState(false);
     const [feedPosts, setFeedPosts] = useState();
