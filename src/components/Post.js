@@ -9,7 +9,7 @@ export default function Post({currentPosts, userPosts, userLikes, likePost, unli
     
     return (
         <div className="post" key={post._id}>
-                                <div className="delete-modal" style={{display: showDeleteModal ? 'flex' : 'none'}}>
+                <div className="delete-modal" style={{display: showDeleteModal ? 'flex' : 'none'}}>
                 <p>Delete Post</p>
                 <form onSubmit={(e) => handlePostDelete(post._id, e)}>
                     <button type="submit" onClick={() => {setShowDeleteModal(false)}}>Delete</button>

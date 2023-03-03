@@ -179,17 +179,20 @@ export default function Preferences(props) {
 
                     <button>Update Password</button>
                 </form>
-                <form className="preferences-delete" onSubmit={(e) => {e.preventDefault(); setShowDeleteModal(true)}}>
-                    <button>Delete Account</button>
-                </form>
-                <div className="delete-modal" style={{display: showDeleteModal ? 'block' : 'none'}}>
-                    <form onSubmit={deleteAccount}>
-                        <p>Are you sure you wish to permanently delete your account?</p>
-                        <p><strong>This action cannot be undone.</strong></p>
-                        <button type="button" onClick={() => setShowDeleteModal(false)}>Cancel</button>
-                        <button type="submit">Delete</button>
+                <div>
+                    <form className="preferences-delete" style={{display: !showDeleteModal ? 'flex' : 'none'}} onSubmit={(e) => {e.preventDefault(); setShowDeleteModal(true)}}>
+                        <button>Delete Account</button>
                     </form>
+                    <div className="delete-account" style={{display: showDeleteModal ? 'flex' : 'none'}}>
+                        <form onSubmit={deleteAccount}>
+                            <p>Are you sure you wish to permanently delete your account?</p>
+                            <p><strong>This action cannot be undone.</strong></p>
+                            <button type="button" onClick={() => setShowDeleteModal(false)}>Cancel</button>
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
                 </div>
+
             </div>
 }
         </>

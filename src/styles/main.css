@@ -476,14 +476,31 @@
     color: white;
 }
 
-.preferences-delete button {
+.preferences-delete button,
+.delete-account form button[type="submit"] {
     background: #FF7878 !important;
     color: white; 
 }
 
-.preferences-delete button:hover {
+.preferences-delete button:hover,
+.delete-account form button[type="submit"]:hover {
     cursor: pointer;
     background: #ac5353 !important;
+}
+
+.delete-account {
+    max-width: 300px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.delete-account form button {
+    font-size: 1rem;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .delete-modal {
@@ -496,6 +513,10 @@
     justify-content: space-between;
     height: 20px;
     align-self: flex-start;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 .delete-modal > form {
