@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, HashRouter } from "react-router-dom";
 import { React, useState, useEffect} from "react";
 import './styles/app.css';
 
@@ -68,7 +68,7 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter>
       <Routes>
         <Route exact path="/" element={<IndexLayout loggedIn={loggedIn} component={<Login loggedIn={loggedIn} />} />} />
         <Route path="/register" element={<IndexLayout loggedIn={loggedIn} component={<Register loggedIn={loggedIn} />} />} />
@@ -82,7 +82,7 @@ function App() {
         <Route path="/liked" element={<MainLayout name={name} profilePicture={profilePicture} component={<Liked />} />} />
         <Route path="/preferences" element={<MainLayout name={name} profilePicture={profilePicture} component={<Preferences />} />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
